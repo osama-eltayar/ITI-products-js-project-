@@ -6,6 +6,7 @@
     <title>E-COMMERCE</title>
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/cart.css">
     <script src="assets/js/jquery-3.3.1.min.js"></script>
     <script src="assets/js/script.js"></script>
 </head>
@@ -24,7 +25,7 @@
                       <a class="nav-link text-white btn-outline-light" href="home.html">Home <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link text-white btn-outline-light" href="about.html">Cart</a>
+                      <a class="nav-link text-white btn-outline-light" href="viewCart.html">Cart</a>
                     </li>
                     <li class="nav-item">
                       <a class="nav-link text-white btn-outline-light" href="about.html">About</a>
@@ -58,27 +59,32 @@
 
     </header>
     
-    <!-- <section > -->
+
+    <section>
+      <a class="cart" href="cart_list.html"><span class="num">num</span><span>price</span><img src="https://img.icons8.com/ios/15/000000/checkout.png"> Checkout</a>
+      <br>
+      
         <div class="container mt-4">
           <div class="row items align-items-end offset-1">
               
           </div>
         </div>
-    <!-- </section> -->
-
-    <nav aria-label="Page navigation example">
-      <ul class="pagination justify-content-center">
-        <li class="page-item disabled">
-          <button class="btn pagePrev" tabindex="-1" aria-disabled="true">Previous</button>
-        </li>
-        <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item">
-          <button class="btn pageNext">Next</button>
-        </li>
-      </ul>
-    </nav>
+    
+        <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-center">
+            <li class="page-item disabled">
+              <button class="btn pagePrev" tabindex="-1" aria-disabled="true">Previous</button>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+              <button class="btn pageNext">Next</button>
+            </li>
+          </ul>
+        </nav>
+    </section>
+    </div>
 
     <footer class="footer mt-5">
       <div class="container-fluid bottom py-1 pb-2">
@@ -92,5 +98,6 @@
   <!-- <script src="assets/js/jquery-3.3.1.min.js"></script> -->
   <script src="assets/js/popper.min.js"></script>
   <script src="assets/js/bootstrap.min.js"></script>
+  <script src="assets/js/cart.js"></script>
 </body>
 </html>

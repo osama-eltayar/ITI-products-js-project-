@@ -121,7 +121,7 @@ class products
           price.text(`${priceVal}$`)
         let checkout =$("<div></div>")
             checkout.addClass("col-6 checkout text-right")
-            checkout.html("<a class='btn btn-sm btn-success'> check</a>")
+            checkout.html(`<a class='btn btn-sm btn-success' id="${id}"> check</a>`)
         
 
         item.append(cardDiv)
