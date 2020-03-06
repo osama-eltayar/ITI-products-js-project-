@@ -1,0 +1,19 @@
+.cartChecked{
+    background-color: yellow !important;
+}
+
+.cartH, .tableH{
+    color: #2878a7;
+    width: 75%;
+    border-bottom: 1px solid #2878a7;
+}
+
+table {
+    table-layout: auto;
+    width: 100%;  
+  }
+
+
+th{
+    color: #2878a7;
+}
