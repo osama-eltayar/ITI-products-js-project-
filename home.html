@@ -6,6 +6,7 @@
     <title>E-COMMERCE</title>
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/cart.css">
 </head>
 <body>
   <div class="page-container">
@@ -22,7 +23,7 @@
                       <a class="nav-link text-white btn-outline-light" href="home.html">Home <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link text-white btn-outline-light" href="about.html">Cart</a>
+                      <a class="nav-link text-white btn-outline-light" href="viewCart.html">Cart</a>
                     </li>
                     <li class="nav-item">
                       <a class="nav-link text-white btn-outline-light" href="about.html">About</a>
@@ -56,11 +57,16 @@
 
     </header>
     
-    <!-- <section > -->
-      <div>
-        <button class="btn btn-outline-dark cart">Checkout<i class="fas fa-shopping-cart"></i></button>
-      </div>
-    <!-- </section> -->
+    <section>
+      <a class="cart" href="cart_list.html"><span class="num">num</span><span>price</span><img src="https://img.icons8.com/ios/15/000000/checkout.png"> Checkout</a>
+      <br>
+      <button id="HT-1000">product1</button><br>
+      <button id="HT-1001">product2</button><br>
+      <button id="HT-1002">product3</button><br>
+      <button id="HT-1003">product4</button><br>
+      <button id="HT-1004">product5</button><br>
+      <button id="HT-1005">product6</button><br>
+    </section>
     </div>
 
     <footer class="footer mt-5">
@@ -75,5 +81,6 @@
   <script src="assets/js/jquery-3.3.1.min.js"></script>
   <script src="assets/js/popper.min.js"></script>
   <script src="assets/js/bootstrap.min.js"></script>
+  <script src="assets/js/cart.js"></script>
 </body>
 </html>

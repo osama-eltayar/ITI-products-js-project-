@@ -7,7 +7,7 @@
 }
 
 .page-container{
-    /* position: relative; */
+    position: relative;
     min-height: 100vh;
 }
 .footer{
@@ -15,4 +15,27 @@
     bottom: 0;
     width: 100%;
     background-color: #2878a7!important;
+}
+.cart{
+    position: fixed;
+    bottom: 50%;
+    padding: 4px;
+    right: 10px;
+    color: white;
+    border: 1px solid white;
+    border-radius: 10px;
+    background-color: #2878a7!important;
+}
+a.cart:hover{
+    text-decoration: none;
+    color: white;
+    border: 2px solid white;
+}
+
+.num{
+    border-radius: 10px;
+    margin-right: 4px;
+    color: #2878a7;
+    padding: 1px;
+    background-color: white;
 }
