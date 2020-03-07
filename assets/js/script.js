@@ -2,7 +2,9 @@ $(function()
 {
     let total_pages 
     let page=1
-    let url= "?limit=6&page="+page
+    $(".pagePrev").hide();
+    $(".page-link:eq(0)").text(page).css({background:'cyan'})
+    let url= "?limit=9&page="+page
 
     p= new products;
     p.getProductPage(url).then(msg=>{
@@ -26,6 +28,55 @@ $(function()
         elem.dispatchEvent(ColorEvent);
         console.log("first")
         elem.dispatchEvent(dataEvent);
+
+            
+        $(".page-link").on('click', (e)=>{
+            url = "?limit=9&page="+e.target.innerText;
+            page = parseInt(e.target.innerText);
+            if (page != 1) {
+                $(".pagePrev").show()
+                if (page<=total_pages-2) {
+                    $(".page-link:eq(0)").text(page).css({background:'cyan'})
+                    $(".page-link:eq(1)").text(page+1).css({background:'white'})
+                    $(".page-link:eq(2)").text(page+2).css({background:'white'})
+                }
+                else if (page<=total_pages-1) {
+                    $(".page-link:eq(0)").text(page-1).css({background:'white'})
+                    $(".page-link:eq(1)").text(page).css({background:'cyan'})
+                    $(".page-link:eq(2)").text(page+1).css({background:'white'})
+                }
+                else if (page<=total_pages) {
+                    $(".page-link:eq(0)").text(page-2).css({background:'white'})
+                    $(".page-link:eq(1)").text(page-1).css({background:'white'})
+                    $(".page-link:eq(2)").text(page).css({background:'cyan'})
+                    $(".pageNext").hide()
+                }
+            }
+            console.log(e.target.innerText);
+
+            p= new products;
+            p.reListProducts()
+            p.getProductPage(url).then(msg=>{
+                total_pages = msg.total_pages
+                let items = msg.data;
+                items.forEach(item => {
+                    let id = item.ProductId;
+                    let name = item.Name;
+                    let price = item.Price;
+                    let image = item.ProductPicUrl
+                    let length = items.length
+                    p.listProducts(id, name, price, image)
+                    // console.log(id+"==>"+name+"==>"+price+"==>"+length+"==>"+msg.total_pages);
+                });
+
+                let ColorEvent = new Event('getAllBtns');
+                const elem = document.querySelector('.items');
+                elem.dispatchEvent(ColorEvent);
+                console.log("first")
+            
+        })
+    });        
+        
     });
 
 
@@ -36,9 +87,16 @@ $(function()
         }
         else
         {
+            $(".pageNext").show()
             page = page-1
+            $(".page-link:eq(0)").text(page).css({background:'cyan'})
+            $(".page-link:eq(1)").text(page+1).css({background:'white'})
+            $(".page-link:eq(2)").text(page+2).css({background:'white'})
+            if (page==1) {
+                $(".pagePrev").hide();
+            }
             console.log(page);
-            let url= "?limit=6&page="+page
+            // let url= "?limit=6&page="+page
 
             p= new products;
             p.reListProducts()
@@ -64,15 +122,37 @@ $(function()
         }
     })
     $(".pageNext").on('click',()=>{
+        console.log(total_pages);
+        
         if (page==total_pages) {
             console.log("end");
         }
         else
         {
+            $(".pagePrev").show()
+            console.log("=="+page);
+            
             page = page+1
+            if (page<=total_pages-2) {
+                $(".page-link:eq(0)").text(page).css({background:'cyan'})
+                $(".page-link:eq(1)").text(page+1).css({background:'white'})
+                $(".page-link:eq(2)").text(page+2).css({background:'white'})
+            }
+            else if (page<=total_pages-1) {
+                $(".page-link:eq(0)").text(page-1).css({background:'white'})
+                $(".page-link:eq(1)").text(page).css({background:'cyan'})
+                $(".page-link:eq(2)").text(page+1).css({background:'white'})
+            }
+            else if (page<=total_pages) {
+                $(".page-link:eq(0)").text(page-2).css({background:'white'})
+                $(".page-link:eq(1)").text(page-1).css({background:'white'})
+                $(".page-link:eq(2)").text(page).css({background:'cyan'})
+                $(".pageNext").hide()
+            }
+            // $('.page-link').addClass('page-link');
             console.log(total_pages);
             console.log(page);
-            let url= "?limit=6&page="+page
+            // let url= "?limit=6&page="+page
 
             p= new products;
             p.reListProducts()
