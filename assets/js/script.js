@@ -64,7 +64,6 @@ $(function()
             p= new products;
             p.reListProducts()
             p.getProductPage(url).then(msg=>{
-            //     console.log(msg)
                 total_pages = msg.total_pages
                 let items = msg.data;
                 items.forEach(item => {
@@ -85,9 +84,9 @@ $(function()
 
 class products
 {
-    async getProductPage(urlPage)
+    getProductPage(urlPage)
     {
-        return await new Promise((resolve, reject)=>{
+        return new Promise((resolve, reject)=>{
             $.ajax({
                 url:"https://afternoon-falls-30227.herokuapp.com/api/v1/products?limit=6&"+urlPage, //path or url 
                 success:function(response)
@@ -121,7 +120,7 @@ class products
           price.text(`${priceVal}$`)
         let checkout =$("<div></div>")
             checkout.addClass("col-6 checkout text-right")
-            checkout.html(`<a class='btn btn-sm btn-success' id="${id}"> check</a>`)
+            checkout.html(`<button class='btn btn-sm btn-success' id="${id}"> check</button>`)
         
 
         item.append(cardDiv)
