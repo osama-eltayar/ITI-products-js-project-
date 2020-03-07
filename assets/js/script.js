@@ -18,6 +18,10 @@ $(function()
             p.listProducts(id, name, price, image)
             // console.log(id+"==>"+name+"==>"+price+"==>"+length+"==>"+msg.total_pages);
         });
+        console.log("first")
+        let event = new Event('getAllBtns');
+        const elem = document.querySelector('.items');
+        elem.dispatchEvent(event);
     });
 
 
