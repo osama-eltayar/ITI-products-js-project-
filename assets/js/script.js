@@ -2,26 +2,30 @@ $(function()
 {
     let total_pages 
     let page=1
-    let url= "page="+page
+    let url= "?limit=6&page="+page
 
     p= new products;
     p.getProductPage(url).then(msg=>{
         console.log(msg)
         total_pages = msg.total_pages
         let items = msg.data;
+        let itemsPrice=[];
         items.forEach(item => {
             let id = item.ProductId;
             let name = item.Name;
             let price = item.Price;
             let image = item.ProductPicUrl
             let length = items.length
+            itemsPrice.push({[id]:price})
             p.listProducts(id, name, price, image)
             // console.log(id+"==>"+name+"==>"+price+"==>"+length+"==>"+msg.total_pages);
         });
-        console.log("first")
-        let event = new Event('getAllBtns');
+        let dataEvent = new Event('getAllCheckedData');
+        let ColorEvent = new Event('getAllBtns');
         const elem = document.querySelector('.items');
-        elem.dispatchEvent(event);
+        elem.dispatchEvent(ColorEvent);
+        console.log("first")
+        elem.dispatchEvent(dataEvent);
     });
 
 
@@ -34,7 +38,7 @@ $(function()
         {
             page = page-1
             console.log(page);
-            let url= "page="+page
+            let url= "?limit=6&page="+page
 
             p= new products;
             p.reListProducts()
@@ -51,6 +55,11 @@ $(function()
                     p.listProducts(id, name, price, image)
                     // console.log(id+"==>"+name+"==>"+price+"==>"+length+"==>"+msg.total_pages);
                 });
+
+                let ColorEvent = new Event('getAllBtns');
+                const elem = document.querySelector('.items');
+                elem.dispatchEvent(ColorEvent);
+                console.log("first")
             });
         }
     })
@@ -63,7 +72,7 @@ $(function()
             page = page+1
             console.log(total_pages);
             console.log(page);
-            let url= "page="+page
+            let url= "?limit=6&page="+page
 
             p= new products;
             p.reListProducts()
@@ -79,6 +88,11 @@ $(function()
                     p.listProducts(id, name, price, image)
                     // console.log(id+"==>"+name+"==>"+price+"==>"+length+"==>"+msg.total_pages);
                 });
+
+                let ColorEvent = new Event('getAllBtns');
+                const elem = document.querySelector('.items');
+                elem.dispatchEvent(ColorEvent);
+                console.log("first")
             });
         }
     })
@@ -92,7 +106,7 @@ class products
     {
         return new Promise((resolve, reject)=>{
             $.ajax({
-                url:"https://afternoon-falls-30227.herokuapp.com/api/v1/products?limit=6&"+urlPage, //path or url 
+                url:"https://afternoon-falls-30227.herokuapp.com/api/v1/products"+urlPage, //path or url 
                 success:function(response)
                 { 
                     resolve(response)
@@ -124,7 +138,7 @@ class products
           price.text(`${priceVal}$`)
         let checkout =$("<div></div>")
             checkout.addClass("col-6 checkout text-right")
-            checkout.html(`<button class='btn btn-sm btn-success' id="${id}"> check</button>`)
+            checkout.html(`<a class='btn btn-sm btn-success' id="${id}"> check</a>`)
         
 
         item.append(cardDiv)
