@@ -4,8 +4,7 @@ $((ev)=>{
     let price=0;
     const elem = document.querySelector('.items');
     elem.addEventListener('getAllBtns', (e) => {
-        console.log(e);
-        $(".items a[id^='HT-']").each((i,el)=>{
+        $(".items button[id^='HT-']").each((i,el)=>{
             idIndex = $(el).attr("id");
             if(getStorage(idIndex)){
                 $(el).toggleClass("cartChecked");
@@ -27,8 +26,9 @@ $((ev)=>{
             });
     }, false);
     
-    $(".items").on("click","a[id^='HT-']" ,(ev)=>{
-        idVal = $(ev.target).attr("id");
+    $(".items").on("click","button[id^='HT-']" ,(ev)=>{
+        idVal = $(ev.currentTarget).attr("id");
+        console.log("clicked", idVal);
         setStorage(idVal, idVal);
         $("#"+idVal).toggleClass("cartChecked");
     });
@@ -45,12 +45,10 @@ $((ev)=>{
             countItems-=1;
             $("#price").text(price);
             $(".num").text(countItems);
-
             localStorage.removeItem(index)
         }
         else{
             console.log("not exists");
-            
             prodPrice = $(`.price.${index}`).text();
             price = $("#price").text();
             price = (+price) + (+prodPrice)
