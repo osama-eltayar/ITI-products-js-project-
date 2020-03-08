@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="assets/css/cart.css">
 </head>
 <body>
-  <div class="page-container">
+  
     <header>
         <!-- <div class="container"> -->
             <nav class="navbar navbar-expand-lg navbar-success bg-success">
@@ -40,11 +40,34 @@
             </nav>
     </header>
     
-    
-    <section>
-      
-    </section>
-  </div>
+    <div class=" container my-5 py-3 bg-info">
+      <h1 class="text-center">Contact Us</h1>
+      <form class="">
+        <div class="form-group col-12">
+          <label class="font-weight-bold my-2 d-block " for="name">Name</label>
+          <input type="text" class="form-control form-control-lg d-inline col-lg-6 mr-2" id="name" placeholder="Osama" aria-describedby="helpname" required>
+          <small id="helpname">must be a valid name </small>
+        </div>
+        <div class="form-group col-12">
+          <label class="font-weight-bold my-2 d-block" for="email">Email address</label>
+          <input type="email" class="form-control form-control-lg d-inline col-lg-6 mr-2 " id="email" placeholder="name@example.com" aria-describedby="helpmail" required>
+          <small class="" id="helpmail" >must be a valid name </small>
+        </div>
+        <div class="form-group col-lg-12">
+          <label class="font-weight-bold my-2 d-block" for="subject">Subject</label>
+          <input type="text" class="form-control form-control-lg d-inline col-lg-6 mr-2 " id="subject" placeholder="JavaScript" aria-describedby="helpsub" required>
+          <small id="helpsub">must be a valid name </small>
+        </div>
+        <div class="form-group col-lg-12">
+          <label class=" font-weight-bold my-2 d-block " for="message">Message</label>
+          <textarea class="col-lg-12" class="form-control" id="message" rows="4" required></textarea>
+        </div>
+        <div class="form-group col-lg-12 text-center">
+          <input class="btn btn-outline-dark" type="button" id="subbtn" value="Submit">
+        </div>
+        
+      </form>
+    </div>
 
   <footer class="footer mt-5">
     <div class="container-fluid bottom py-1 pb-2">
@@ -59,5 +82,6 @@
 <script src="assets/js/popper.min.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
 <script src="assets/js/cart.js"></script>
+<script src="assets/js/contact.js"></script>
 </body>
 </html>
