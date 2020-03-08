@@ -60,8 +60,6 @@
     </header>
     
     <section>
-      <a class="cart" href="cart_list.html"><span class="num">num</span><span>price</span><img src="https://img.icons8.com/ios/15/000000/checkout.png"> Checkout</a>
-      <br>
       
         <div class="container mt-4">
           <div class="row items align-items-end offset-1">
@@ -72,16 +70,26 @@
         <nav aria-label="Page navigation example">
           <ul class="pagination justify-content-center">
             <li class="page-item disabled">
-              <button class="btn pagePrev" tabindex="-1" aria-disabled="true">Previous</button>
+              <button class="btn btn-dark pagePrev" tabindex="-1" aria-disabled="true">Previous</button>
             </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><button class="btn page-link" id="page1">1</button></li>
+            <li class="page-item"><button class="btn page-link" id="page2">2</button></li>
+            <li class="page-item"><button class="btn page-link" id="page3">3</button></li>
             <li class="page-item">
-              <button class="btn pageNext">Next</button>
+              <button class="btn btn-dark pageNext">Next</button>
             </li>
           </ul>
         </nav>
+
+        <br>
+        <div class="cart">
+          <span class="num">0</span>
+          <span>$</span>
+          <span id="price">0</span>
+          <img src="https://img.icons8.com/ios/15/000000/checkout.png">
+        <a class="btn btn-sm" href="viewCart.html"> Checkout</a>
+        </div>
+
 
     </section>
     </div>

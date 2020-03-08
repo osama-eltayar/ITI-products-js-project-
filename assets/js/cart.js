@@ -1,38 +1,78 @@
 
 $((ev)=>{
-    $("[id^='HT-1']").each((i,el)=>{
-        if(getStorage(i)){
-            $(el).toggleClass("cartChecked");
-        }
-        $(el).click((ev)=>{
-            idVal = $(el).attr("id");
-            console.log(i,$(el).attr("id"));
-            setStorage(i, idVal);
-            $(el).toggleClass("cartChecked");
+    let countItems=0;
+    let price=0;
+    const elem = document.querySelector('.items');
+    elem.addEventListener('getAllBtns', (e) => {
+        console.log(e);
+        $(".items a[id^='HT-']").each((i,el)=>{
+            idIndex = $(el).attr("id");
+            if(getStorage(idIndex)){
+                $(el).toggleClass("cartChecked");
+            }
         });
+    }, false);
+
+
+    elem.addEventListener('getAllCheckedData', (e) => {
+            Object.values(localStorage).forEach(element => {
+                element = JSON.parse(element);
+                q = element.q;
+                p = element.price;
+                price = +($("#price").text());
+                price += +p * +q;
+                countItems+=q;
+                $("#price").text(price);
+                $(".num").text(countItems);
+            });
+    }, false);
+    
+    $(".items").on("click","a[id^='HT-']" ,(ev)=>{
+        idVal = $(ev.target).attr("id");
+        setStorage(idVal, idVal);
+        $("#"+idVal).toggleClass("cartChecked");
     });
+
+
+    function setStorage(index, num){
+        if(localStorage.getItem(index))
+        {
+            console.log("exists");
+            
+            prodPrice = $(`.price.${index}`).text();
+            price = $("#price").text();
+            price = (+price) - (+prodPrice)
+            countItems-=1;
+            $("#price").text(price);
+            $(".num").text(countItems);
+
+            localStorage.removeItem(index)
+        }
+        else{
+            console.log("not exists");
+            
+            prodPrice = $(`.price.${index}`).text();
+            price = $("#price").text();
+            price = (+price) + (+prodPrice)
+            countItems+=1;
+            $("#price").text(price);
+            $(".num").text(countItems);
+
+            item = {"id":num, "q":1, "price":prodPrice};
+            localStorage.setItem(index,JSON.stringify(item));
+        }
+    }
+
+    function getStorage(index){
+        if(localStorage.getItem(index))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    function removeStorage(index){
+        localStorage.removeItem(index)
+    }
+
 });
-
-function setStorage(index, num){
-    if(sessionStorage.getItem(index))
-    {
-        console.log("exists");
-        sessionStorage.removeItem(index)
-    }
-    else{
-        console.log("not exists");
-        sessionStorage.setItem(index,num);
-    }
-}
-
-function getStorage(index){
-    if(sessionStorage.getItem(index))
-    {
-        return true;
-    }
-    return false;
-}
-
-function removeStorage(index){
-    sessionStorage.removeItem(index)
-}
