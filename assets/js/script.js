@@ -2,9 +2,11 @@ $(function()
 {
     let total_pages 
     let page=1
+    let limit = 9
     $(".pagePrev").hide();
     $(".page-link:eq(0)").text(page).css({background:'cyan'})
-    let url= "?limit=9&page="+page
+    
+    let url= "?limit="+limit+"&page="+page
 
     p= new products;
     p.getProductPage(url).then(msg=>{
@@ -31,8 +33,8 @@ $(function()
 
             
         $(".page-link").on('click', (e)=>{
-            url = "?limit=9&page="+e.target.innerText;
             page = parseInt(e.target.innerText);
+            let url= "?limit="+limit+"&page="+page
             if (page != 1) {
                 $(".pagePrev").show()
                 if (page<=total_pages-2) {
@@ -96,7 +98,7 @@ $(function()
                 $(".pagePrev").hide();
             }
             console.log(page);
-            // let url= "?limit=6&page="+page
+            let url= "?limit="+limit+"&page="+page
 
             p= new products;
             p.reListProducts()
@@ -152,7 +154,7 @@ $(function()
             // $('.page-link').addClass('page-link');
             console.log(total_pages);
             console.log(page);
-            // let url= "?limit=6&page="+page
+            let url= "?limit="+limit+"&page="+page
 
             p= new products;
             p.reListProducts()
@@ -214,11 +216,13 @@ class products
         let cardBody =$("<div></div>")
           cardBody.addClass("card-body row")
         let price =$("<div></div>")
-          price.addClass("col-6 price text-left")
+          price.addClass("col-6 price text-left border-top pt-3")
           price.text(`${priceVal}$`)
         let checkout =$("<div></div>")
-            checkout.addClass("col-6 checkout text-right")
-            checkout.html(`<a class='btn btn-sm btn-success' id="${id}"> check</a>`)
+            checkout.addClass("col-6 checkout text-right border-top pt-3")
+            checkout.html(`<button class='btn btn-sm btn-light rounded-circle' id="${id}">
+                <img src="https://img.icons8.com/ios/15/000000/checkout.png">
+            </button>`)
         
 
         item.append(cardDiv)

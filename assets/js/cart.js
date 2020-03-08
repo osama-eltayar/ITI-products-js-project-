@@ -5,7 +5,7 @@ $((ev)=>{
     const elem = document.querySelector('.items');
     elem.addEventListener('getAllBtns', (e) => {
         // console.log(e);
-        $(".items a[id^='HT-']").each((i,el)=>{
+        $(".items button[id^='HT-']").each((i,el)=>{
             idIndex = $(el).attr("id");
             if(getStorage(idIndex)){
                 $(el).toggleClass("cartChecked");
@@ -25,7 +25,7 @@ $((ev)=>{
                     price+=itemPrice
                     countItems+=1;
                     $(".num").text(countItems);
-                    $("#price").text(price);
+                    $("#price").text('$'+price);
                     console.log(price)
                     });
                 console.log(element);
@@ -33,9 +33,9 @@ $((ev)=>{
             console.log("done");
     }, false);
     
-    $(".items").on("click","a[id^='HT-']" ,(ev)=>{
+    $(".items").on("click","button[id^='HT-']" ,(ev)=>{
         console.log(ev)
-        idVal = $(ev.target).attr("id");
+        idVal = $(ev.currentTarget).attr("id");
         console.log(idVal,$(ev.target).attr("id"));
         setStorage(idVal, idVal);
         $("#"+idVal).toggleClass("cartChecked");
@@ -53,7 +53,7 @@ $((ev)=>{
                 let itemPrice = item.Price;
                 price-=itemPrice
                 countItems-=1;
-                $("#price").text(price);
+                $("#price").text('$'+price);
                 $(".num").text(countItems);
                 });
             localStorage.removeItem(index)
@@ -67,7 +67,7 @@ $((ev)=>{
                 let itemPrice = item.Price;
                 price+=itemPrice
                 countItems+=1;
-                $("#price").text(price);
+                $("#price").text('$'+price);
                 $(".num").text(countItems);
                 });
             localStorage.setItem(index,num);
