@@ -29,7 +29,8 @@ $((ev)=>{
         }
         else{
             console.log("not exists");
-            localStorage.setItem(index,num);
+            item = {"id":num, "q":1};
+            localStorage.setItem(index,JSON.stringify(item));
         }
     }
 
