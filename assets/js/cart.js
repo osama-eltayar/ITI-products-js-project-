@@ -4,12 +4,10 @@ $((ev)=>{
     let price=0;
     const elem = document.querySelector('.items');
     elem.addEventListener('getAllBtns', (e) => {
-        // console.log(e);
         $(".items button[id^='HT-']").each((i,el)=>{
             idIndex = $(el).attr("id");
             if(getStorage(idIndex)){
                 $(el).toggleClass("cartChecked");
-                console.log("done");
             }
         });
     }, false);
@@ -17,26 +15,20 @@ $((ev)=>{
 
     elem.addEventListener('getAllCheckedData', (e) => {
             Object.values(localStorage).forEach(element => {
-                let url= "/"+element
-                p= new products;
-                p.getProductPage(url).then(msg=>{
-                    let item = msg.data;
-                    let itemPrice = item.Price;
-                    price+=itemPrice
-                    countItems+=1;
-                    $(".num").text(countItems);
-                    $("#price").text('$'+price);
-                    console.log(price)
-                    });
-                console.log(element);
+                element = JSON.parse(element);
+                q = element.q;
+                p = element.price;
+                price = +($("#price").text());
+                price += +p * +q;
+                countItems+=q;
+                $("#price").text(price);
+                $(".num").text(countItems);
             });
-            console.log("done");
     }, false);
     
     $(".items").on("click","button[id^='HT-']" ,(ev)=>{
-        console.log(ev)
         idVal = $(ev.currentTarget).attr("id");
-        console.log(idVal,$(ev.target).attr("id"));
+        console.log("clicked", idVal);
         setStorage(idVal, idVal);
         $("#"+idVal).toggleClass("cartChecked");
     });
@@ -46,31 +38,26 @@ $((ev)=>{
         if(localStorage.getItem(index))
         {
             console.log("exists");
-            let url= "/"+num
-            p= new products;
-            p.getProductPage(url).then(msg=>{
-                let item = msg.data;
-                let itemPrice = item.Price;
-                price-=itemPrice
-                countItems-=1;
-                $("#price").text('$'+price);
-                $(".num").text(countItems);
-                });
+            
+            prodPrice = $(`.price.${index}`).text();
+            price = $("#price").text();
+            price = (+price) - (+prodPrice)
+            countItems-=1;
+            $("#price").text(price);
+            $(".num").text(countItems);
             localStorage.removeItem(index)
         }
         else{
             console.log("not exists");
-            let url= "/"+num
-            p= new products;
-            p.getProductPage(url).then(msg=>{
-                let item = msg.data;
-                let itemPrice = item.Price;
-                price+=itemPrice
-                countItems+=1;
-                $("#price").text('$'+price);
-                $(".num").text(countItems);
-                });
-            localStorage.setItem(index,num);
+            prodPrice = $(`.price.${index}`).text();
+            price = $("#price").text();
+            price = (+price) + (+prodPrice)
+            countItems+=1;
+            $("#price").text(price);
+            $(".num").text(countItems);
+
+            item = {"id":num, "q":1, "price":prodPrice};
+            localStorage.setItem(index,JSON.stringify(item));
         }
     }
 
