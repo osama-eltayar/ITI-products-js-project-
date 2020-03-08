@@ -4,12 +4,11 @@ $((ev)=>{
     let price=0;
     const elem = document.querySelector('.items');
     elem.addEventListener('getAllBtns', (e) => {
-        // console.log(e);
+        console.log(e);
         $(".items a[id^='HT-']").each((i,el)=>{
             idIndex = $(el).attr("id");
             if(getStorage(idIndex)){
                 $(el).toggleClass("cartChecked");
-                console.log("done");
             }
         });
     }, false);
@@ -17,6 +16,7 @@ $((ev)=>{
 
     elem.addEventListener('getAllCheckedData', (e) => {
             Object.values(localStorage).forEach(element => {
+                element = JSON.parse(element).id
                 let url= "/"+element
                 p= new products;
                 p.getProductPage(url).then(msg=>{
@@ -26,11 +26,8 @@ $((ev)=>{
                     countItems+=1;
                     $(".num").text(countItems);
                     $("#price").text(price);
-                    console.log(price)
                     });
-                console.log(element);
             });
-            console.log("done");
     }, false);
     
     $(".items").on("click","a[id^='HT-']" ,(ev)=>{
@@ -47,6 +44,7 @@ $((ev)=>{
         {
             console.log("exists");
             let url= "/"+num
+            console.log("num: ",url);
             p= new products;
             p.getProductPage(url).then(msg=>{
                 let item = msg.data;
@@ -60,7 +58,7 @@ $((ev)=>{
         }
         else{
             console.log("not exists");
-
+            
             let url= "/"+num
             p= new products;
             p.getProductPage(url).then(msg=>{

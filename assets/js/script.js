@@ -8,7 +8,6 @@ $(function()
 
     p= new products;
     p.getProductPage(url).then(msg=>{
-        console.log(msg)
         total_pages = msg.total_pages
         let items = msg.data;
         let itemsPrice=[];
@@ -26,7 +25,6 @@ $(function()
         let ColorEvent = new Event('getAllBtns');
         const elem = document.querySelector('.items');
         elem.dispatchEvent(ColorEvent);
-        console.log("first")
         elem.dispatchEvent(dataEvent);
 
             
@@ -184,6 +182,7 @@ class products
 {
     getProductPage(urlPage)
     {
+        
         return new Promise((resolve, reject)=>{
             $.ajax({
                 url:"https://afternoon-falls-30227.herokuapp.com/api/v1/products"+urlPage, //path or url 
