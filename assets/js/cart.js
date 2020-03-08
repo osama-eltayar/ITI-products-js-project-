@@ -16,24 +16,19 @@ $((ev)=>{
 
     elem.addEventListener('getAllCheckedData', (e) => {
             Object.values(localStorage).forEach(element => {
-                element = JSON.parse(element).id
-                let url= "/"+element
-                p= new products;
-                p.getProductPage(url).then(msg=>{
-                    let item = msg.data;
-                    let itemPrice = item.Price;
-                    price+=itemPrice
-                    countItems+=1;
-                    $(".num").text(countItems);
-                    $("#price").text(price);
-                    });
+                element = JSON.parse(element);
+                q = element.q;
+                p = element.price;
+                price = +($("#price").text());
+                price += +p * +q;
+                countItems+=q;
+                $("#price").text(price);
+                $(".num").text(countItems);
             });
     }, false);
     
     $(".items").on("click","a[id^='HT-']" ,(ev)=>{
-        console.log(ev)
         idVal = $(ev.target).attr("id");
-        console.log(idVal,$(ev.target).attr("id"));
         setStorage(idVal, idVal);
         $("#"+idVal).toggleClass("cartChecked");
     });
@@ -43,34 +38,28 @@ $((ev)=>{
         if(localStorage.getItem(index))
         {
             console.log("exists");
-            let url= "/"+num
-            console.log("num: ",url);
-            p= new products;
-            p.getProductPage(url).then(msg=>{
-                let item = msg.data;
-                let itemPrice = item.Price;
-                price-=itemPrice
-                countItems-=1;
-                $("#price").text(price);
-                $(".num").text(countItems);
-                });
+            
+            prodPrice = $(`.price.${index}`).text();
+            price = $("#price").text();
+            price = (+price) - (+prodPrice)
+            countItems-=1;
+            $("#price").text(price);
+            $(".num").text(countItems);
+
             localStorage.removeItem(index)
         }
         else{
             console.log("not exists");
             
-            let url= "/"+num
-            p= new products;
-            p.getProductPage(url).then(msg=>{
-                let item = msg.data;
-                let itemPrice = item.Price;
-                price+=itemPrice
-                countItems+=1;
-                $("#price").text(price);
-                $(".num").text(countItems);
-                });
-                item = {"id":num, "q":1};
-                localStorage.setItem(index,JSON.stringify(item));
+            prodPrice = $(`.price.${index}`).text();
+            price = $("#price").text();
+            price = (+price) + (+prodPrice)
+            countItems+=1;
+            $("#price").text(price);
+            $(".num").text(countItems);
+
+            item = {"id":num, "q":1, "price":prodPrice};
+            localStorage.setItem(index,JSON.stringify(item));
         }
     }
 
