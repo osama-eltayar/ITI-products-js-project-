@@ -69,8 +69,8 @@ $((ev)=>{
         return false;
     }
 
-    function removeStorage(index){
-        localStorage.removeItem(index)
+    function removeStorage(){
+        localStorage.clear()
     }
 
 });
