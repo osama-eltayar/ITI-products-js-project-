@@ -7,6 +7,8 @@ $((ev)=>{
     //fires when all the products are fetched from the api and listed in the home page
     //to view which product was checked before and stored in the localStorage
     elem.addEventListener('getAllBtns', (e) => {
+        console.log("kkkkk");
+        
         $(".items button[id^='HT-']").each((i,el)=>{
             idIndex = $(el).attr("id");
             if(getStorage(idIndex)){
@@ -17,6 +19,8 @@ $((ev)=>{
 
     //fires when all the products are fetched from the api and listed in the home page
     elem.addEventListener('getAllCheckedData', (e) => {
+        console.log("getAllCheckedData");
+        
             Object.values(localStorage).forEach(element => {
                 element = JSON.parse(element);
                 q = element.q;

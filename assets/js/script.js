@@ -10,9 +10,13 @@ $(function()
     $(".pagePrev").hide();
     $(".page-link:eq(0)").text(page).css({background:'cyan'})
     
-    p= new products;
-    p.useProductPage(url)
-    elem.dispatchEvent(dataEvent);
+    let p= new products;
+    p.useProductPage(url).then((ev)=>{
+        let dataEvent = new Event('getAllCheckedData');
+        const elem = document.querySelector('.items');
+        elem.dispatchEvent(dataEvent);
+    });
+     
     
     $(".page-link").on('click', (e)=>{
         page = parseInt(e.target.innerText);
@@ -118,7 +122,7 @@ class products
     useProductPage(url)
     {
         this.reListProducts()
-        this.getProductPage(url).then(msg=>{
+        return this.getProductPage(url).then(msg=>{
             this.total_pages = msg.total_pages
             console.log("total pages:",this.total_pages);
             let items = msg.data;
