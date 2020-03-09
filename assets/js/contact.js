@@ -72,8 +72,9 @@ function send()
 {
     console.log(messageText.value.length);
 
-    if(nameFlag && mailFlag && subFlag && messageText.value.length >0)
+    if(subFlag==true)
     {
+        console.log(subFlag);
         dataobj={
             name:nameText.value,
             email:mailText.value,
@@ -84,16 +85,52 @@ function send()
         var datajson=JSON.stringify(dataobj);
         console.log(datajson);
         $(function(){
-            $.ajax({
+           var req= $.ajax({
                 method:"POST",
                 contentType: "application/json",
                 url: "https://afternoon-falls-30227.herokuapp.com/api/v1/contact_us",
                 data: datajson,
                 dataType: "json",
-                success:function(data,status,xhr){
-                    console.log("success");
-                },           
+                cache: false
+            });
+            req.done(function(res){
+                console.log(res.message)
+                $('#sent').text(res.message);
+
+
             })
+            req.fail(function(){
+                console.log("failed")
+                res=JSON.parse(req.responseText).error
+                console.log(res)
+                if(res.name)
+                {
+                    $("#helpname").text(res.name);
+                    $(nameText).removeClass("is-valid");
+                    $(nameText).addClass("is-invalid");
+                }
+                if(res.email)
+                {
+                    $('#helpmail').text(res.email);
+                    $(mailText).removeClass("is-valid");
+                    $(mailText).addClass("is-invalid");
+
+                }
+                
+
+
+            });
+            
+
+       
+  
         })
-    }  
+    }
+    else
+    {
+        $('#helpsub').text("must be between 3 and 50");
+        $(subjectText).removeClass("is-valid");
+        $(subjectText).addClass("is-invalid");
+    }
+
 }
