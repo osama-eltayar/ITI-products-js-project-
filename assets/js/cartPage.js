@@ -40,7 +40,6 @@ $("table").on("click","input" , function() {
     }).change();
 });
 
-
 function updateQuantity(cls, q){
     quantStorage = JSON.parse(localStorage.getItem(cls))
     quantStorage.q = q;
