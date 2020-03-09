@@ -47,6 +47,14 @@ $(".submitBtn").on("click",(ev)=>{
         p = element.price;
         totalPrice += +p * +q;
     });
+    if (q==1) 
+    {
+        totalPrice =`$${totalPrice} for 1 item`;
+    }
+    else
+    {
+        totalPrice =`$${totalPrice} for ${q} items`;
+    }
     let d = new Date();
     let day = d.getDay();
     let year = d.getFullYear();
