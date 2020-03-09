@@ -38,8 +38,8 @@ $(function()
         }
         console.log(e.target.innerText);
         url= "?limit="+limit+"&page="+page
-        p.useProductPage(url);       
-        
+        p.useProductPage(url);
+
     });
 
     $(".pagePrev").on('click',()=>{
@@ -103,9 +103,9 @@ class products
     {
         return await new Promise((resolve, reject)=>{
             $.ajax({
-                url:"https://afternoon-falls-30227.herokuapp.com/api/v1/products"+urlPage, //path or url 
+                url:"https://afternoon-falls-30227.herokuapp.com/api/v1/products"+urlPage, //path or url
                 success:function(response)
-                { 
+                {
                     resolve(response)
                 } ,
                 error:function()
@@ -113,7 +113,7 @@ class products
                     reject("error xxx")
                 }
             });
-        }) 
+        })
     }
 
     useProductPage(url)
@@ -138,7 +138,7 @@ class products
             let ColorEvent = new Event('getAllBtns');
             elem.dispatchEvent(ColorEvent);
             $(".details").on("click",showDetails)
-        
+
             $('.mask').on('click', function(){
                 $('.mask').fadeOut();
                 $('#quick-view-pop-up').fadeOut();
@@ -196,7 +196,7 @@ class products
 
 function showDetails(){
     console.log("clicked");
-    
+
   console.log($(this).parent().siblings(".checkout").children().attr("id"));
   let itemId=$(this).parent().siblings(".checkout").children().attr("id");
   $.getJSON("https://afternoon-falls-30227.herokuapp.com/api/v1/products/"+itemId, function(result){
@@ -206,6 +206,7 @@ function showDetails(){
       $(".product-name").text(result.data.Name);
       $(".description").text(result.data.Description);
       $(".product-price").text(result.data.Price);
+      
       $(".status").text("result.data.Status");
       
       $(".add-to-bag").text("Add to Cart")
@@ -225,4 +226,3 @@ function showDetails(){
   $('#quick-view-pop-up').css({"top":"34px", "left":"314px"});
   $('.mask').fadeToggle();
 }
-
