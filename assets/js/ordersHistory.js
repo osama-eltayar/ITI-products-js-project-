@@ -41,14 +41,10 @@ function openDB() {
                 order = cursor.value.order;
                 date = cursor.value.date;
                 status = cursor.value.status;
-                total = cursor.value.total;
-
-
-                $(function () {
-
-                    $("<tr class='table-success'><th scope="+"row"+" >" + order + " </th><td>" + date + "</td><td> " + status + "</td><td> " + total + "</td></tr>").appendTo("#histBody");
-                    // $("<tr class='table-success' ><th scope='row'>" + order + "</th><td>" + date + "</td><td> " + status + "</td><td> " + total + "</td></tr>").appendTo("#histBody");
-                })
+                total = cursor.value.total; 
+                     
+                $("<tr class='table-success'><th scope=row >" + order + " </th><td>" + date + "</td><td> " + status + "</td><td> " + total + "</td></tr>").appendTo("#histBody");
+                // $("<tr class='table-success' ><th scope='row'>" + order + "</th><td>" + date + "</td><td> " + status + "</td><td> " + total + "</td></tr>").appendTo("#histBody");       
                 cursor.continue();
             }
             else
