@@ -7,12 +7,13 @@ $(function()
     let url= "?limit="+limit+"&page="+page
     let dataEvent = new Event('getAllCheckedData');
     const elem = document.querySelector('.items');
+    elem.dispatchEvent(dataEvent);
+    
     $(".pagePrev").hide();
     $(".page-link:eq(0)").text(page).css({background:'cyan'})
     
-    p= new products;
+    let p= new products;
     p.useProductPage(url)
-    elem.dispatchEvent(dataEvent);
     
     $(".page-link").on('click', (e)=>{
         page = parseInt(e.target.innerText);
@@ -61,7 +62,7 @@ $(function()
         }
     })
     $(".pageNext").on('click',()=>{
-        if (page==p.getPagesNum()) {
+        if (page == p.getPagesNum()) {
             console.log("end");
         }
         else
@@ -69,7 +70,7 @@ $(function()
             $(".pagePrev").show()
             console.log("=="+page);
             page = page+1
-            if (page<=p.getPagesNum()-2) {
+            if (page <= p.getPagesNum()-2) {
                 $(".page-link:eq(0)").text(page).css({background:'cyan'})
                 $(".page-link:eq(1)").text(page+1).css({background:'white'})
                 $(".page-link:eq(2)").text(page+2).css({background:'white'})
@@ -130,8 +131,11 @@ class products
                 let length = items.length
                 this.listProducts(id, name, price, image)
             });
-            let ColorEvent = new Event('getAllBtns');
+            let checkoutEvent = new Event('getAllCheckedData');
             const elem = document.querySelector('.items');
+            elem.dispatchEvent(checkoutEvent);
+
+            let ColorEvent = new Event('getAllBtns');
             elem.dispatchEvent(ColorEvent);
             $(".details").on("click",showDetails)
         
@@ -203,8 +207,22 @@ function showDetails(){
       $(".description").text(result.data.Description);
       $(".product-price").text(result.data.Price);
       $(".status").text("result.data.Status");
+      
+      $(".add-to-bag").text("Add to Cart")
+      if(localStorage.hasOwnProperty(itemId))
+      {
+        $(".add-to-bag").text("Remove from Cart")
+      }
   });
+  $(".add-to-bag").on("click", (e)=>{
+      console.log(itemId);
+      let clickEvent = new CustomEvent("clickCart", {'detail': {id:itemId}});
+      const elem = document.querySelector('.items');
+      elem.dispatchEvent(clickEvent);
+      
+  })
   $('#quick-view-pop-up').fadeToggle();
   $('#quick-view-pop-up').css({"top":"34px", "left":"314px"});
   $('.mask').fadeToggle();
 }
+
