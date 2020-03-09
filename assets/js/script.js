@@ -10,29 +10,33 @@ $(function()
     elem.dispatchEvent(dataEvent);
     
     $(".pagePrev").hide();
-    $(".page-link:eq(0)").text(page).css({background:'cyan'})
+    $(".page-link:eq(0)").text(page).css({background:'orange'})
     
     let p= new products;
-    p.useProductPage(url)
-    
+    p.useProductPage(url).then((ev)=>{
+        let dataEvent = new Event('getAllCheckedData');
+        const elem = document.querySelector('.items');
+        elem.dispatchEvent(dataEvent);
+    });
+
     $(".page-link").on('click', (e)=>{
         page = parseInt(e.target.innerText);
         if (page != 1) {
             $(".pagePrev").show()
             if (page<=p.getPagesNum()-2) {
-                $(".page-link:eq(0)").text(page).css({background:'cyan'})
+                $(".page-link:eq(0)").text(page).css({background:'orange'})
                 $(".page-link:eq(1)").text(page+1).css({background:'white'})
                 $(".page-link:eq(2)").text(page+2).css({background:'white'})
             }
             else if (page<=p.getPagesNum()-1) {
                 $(".page-link:eq(0)").text(page-1).css({background:'white'})
-                $(".page-link:eq(1)").text(page).css({background:'cyan'})
+                $(".page-link:eq(1)").text(page).css({background:'orange'})
                 $(".page-link:eq(2)").text(page+1).css({background:'white'})
             }
             else if (page<=p.getPagesNum()) {
                 $(".page-link:eq(0)").text(page-2).css({background:'white'})
                 $(".page-link:eq(1)").text(page-1).css({background:'white'})
-                $(".page-link:eq(2)").text(page).css({background:'cyan'})
+                $(".page-link:eq(2)").text(page).css({background:'orange'})
                 $(".pageNext").hide()
             }
         }
@@ -50,7 +54,7 @@ $(function()
         {
             $(".pageNext").show()
             page = page-1
-            $(".page-link:eq(0)").text(page).css({background:'cyan'})
+            $(".page-link:eq(0)").text(page).css({background:'orange'})
             $(".page-link:eq(1)").text(page+1).css({background:'white'})
             $(".page-link:eq(2)").text(page+2).css({background:'white'})
             if (page==1) {
@@ -71,19 +75,19 @@ $(function()
             console.log("=="+page);
             page = page+1
             if (page <= p.getPagesNum()-2) {
-                $(".page-link:eq(0)").text(page).css({background:'cyan'})
+                $(".page-link:eq(0)").text(page).css({background:'orange'})
                 $(".page-link:eq(1)").text(page+1).css({background:'white'})
                 $(".page-link:eq(2)").text(page+2).css({background:'white'})
             }
             else if (page<=p.getPagesNum()-1) {
                 $(".page-link:eq(0)").text(page-1).css({background:'white'})
-                $(".page-link:eq(1)").text(page).css({background:'cyan'})
+                $(".page-link:eq(1)").text(page).css({background:'orange'})
                 $(".page-link:eq(2)").text(page+1).css({background:'white'})
             }
             else if (page<=p.getPagesNum()) {
                 $(".page-link:eq(0)").text(page-2).css({background:'white'})
                 $(".page-link:eq(1)").text(page-1).css({background:'white'})
-                $(".page-link:eq(2)").text(page).css({background:'cyan'})
+                $(".page-link:eq(2)").text(page).css({background:'orange'})
                 $(".pageNext").hide()
             }
             console.log(page);
@@ -119,7 +123,7 @@ class products
     useProductPage(url)
     {
         this.reListProducts()
-        this.getProductPage(url).then(msg=>{
+        return this.getProductPage(url).then(msg=>{
             this.total_pages = msg.total_pages
             console.log("total pages:",this.total_pages);
             let items = msg.data;
@@ -131,10 +135,7 @@ class products
                 let length = items.length
                 this.listProducts(id, name, price, image)
             });
-            let checkoutEvent = new Event('getAllCheckedData');
             const elem = document.querySelector('.items');
-            elem.dispatchEvent(checkoutEvent);
-
             let ColorEvent = new Event('getAllBtns');
             elem.dispatchEvent(ColorEvent);
             $(".details").on("click",showDetails)
@@ -215,6 +216,7 @@ function showDetails(){
         $(".add-to-bag").text("Remove from Cart")
       }
   });
+  
   $(".add-to-bag").unbind().on("click", (e)=>{
       console.log("itemId");
       let clickEvent = new CustomEvent("clickCart", {'detail': {"id":itemId}});

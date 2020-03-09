@@ -45,8 +45,7 @@ function openDB() {
 
 
                 $("<tr class='table-success'><th scope="+"row"+" >" + order + " </th><td>" + date + "</td><td> " + status + "</td><td> " + total + "</td></tr>").appendTo("#histBody");
-                // $("<tr class='table-success' ><th scope='row'>" + order + "</th><td>" + date + "</td><td> " + status + "</td><td> " + total + "</td></tr>").appendTo("#histBody");
-            
+
                 cursor.continue();
             }
             else
