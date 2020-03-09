@@ -68,19 +68,21 @@ $(".submitBtn").on("click",(ev)=>{
     console.log(getLocalStorageData());
     let items = getLocalStorageData()
     totalPrice = 0;
+    totalQuantity = 0;
     items.forEach(element => {
         console.log(element);
         q = element.q;
         p = element.price;
+        totalQuantity += q; 
         totalPrice += +p * +q;
     });
-    if (q==1) 
+    if (totalQuantity==1) 
     {
-        totalPrice =`$${totalPrice} for 1 item`;
+        totalPrice =`$${totalPrice} for ${totalQuantity} item`;
     }
     else
     {
-        totalPrice =`$${totalPrice} for ${q} items`;
+        totalPrice =`$${totalPrice} for ${totalQuantity} items`;
     }
     let d = new Date();
     let day = d.getDay();
