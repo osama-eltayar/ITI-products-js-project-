@@ -1,85 +1,44 @@
 $(function()
 {
-    let total_pages 
+    let total_pages ;
     let page=1
     let limit = 9
+    let url= "?limit="+limit+"&page="+page
+    let dataEvent = new Event('getAllCheckedData');
+    const elem = document.querySelector('.items');
     $(".pagePrev").hide();
     $(".page-link:eq(0)").text(page).css({background:'cyan'})
     
-    let url= "?limit="+limit+"&page="+page
-
     p= new products;
-    p.getProductPage(url).then(msg=>{
-        total_pages = msg.total_pages
-        let items = msg.data;
-        let itemsPrice=[];
-        items.forEach(item => {
-            let id = item.ProductId;
-            let name = item.Name;
-            let price = item.Price;
-            let image = item.ProductPicUrl
-            let length = items.length
-            itemsPrice.push({[id]:price})
-            p.listProducts(id, name, price, image)
-            // console.log(id+"==>"+name+"==>"+price+"==>"+length+"==>"+msg.total_pages);
-        });
-        let dataEvent = new Event('getAllCheckedData');
-        let ColorEvent = new Event('getAllBtns');
-        const elem = document.querySelector('.items');
-        elem.dispatchEvent(ColorEvent);
-        elem.dispatchEvent(dataEvent);
+    p.useProductPage(url)
+    elem.dispatchEvent(dataEvent);
 
-            
-        $(".page-link").on('click', (e)=>{
-            page = parseInt(e.target.innerText);
-            let url= "?limit="+limit+"&page="+page
-            if (page != 1) {
-                $(".pagePrev").show()
-                if (page<=total_pages-2) {
-                    $(".page-link:eq(0)").text(page).css({background:'cyan'})
-                    $(".page-link:eq(1)").text(page+1).css({background:'white'})
-                    $(".page-link:eq(2)").text(page+2).css({background:'white'})
-                }
-                else if (page<=total_pages-1) {
-                    $(".page-link:eq(0)").text(page-1).css({background:'white'})
-                    $(".page-link:eq(1)").text(page).css({background:'cyan'})
-                    $(".page-link:eq(2)").text(page+1).css({background:'white'})
-                }
-                else if (page<=total_pages) {
-                    $(".page-link:eq(0)").text(page-2).css({background:'white'})
-                    $(".page-link:eq(1)").text(page-1).css({background:'white'})
-                    $(".page-link:eq(2)").text(page).css({background:'cyan'})
-                    $(".pageNext").hide()
-                }
+    $(".page-link").on('click', (e)=>{
+        page = parseInt(e.target.innerText);
+        if (page != 1) {
+            $(".pagePrev").show()
+            if (page<=p.getPagesNum()-2) {
+                $(".page-link:eq(0)").text(page).css({background:'cyan'})
+                $(".page-link:eq(1)").text(page+1).css({background:'white'})
+                $(".page-link:eq(2)").text(page+2).css({background:'white'})
             }
-            console.log(e.target.innerText);
-
-            p= new products;
-            p.reListProducts()
-            p.getProductPage(url).then(msg=>{
-                total_pages = msg.total_pages
-                let items = msg.data;
-                items.forEach(item => {
-                    let id = item.ProductId;
-                    let name = item.Name;
-                    let price = item.Price;
-                    let image = item.ProductPicUrl
-                    let length = items.length
-                    p.listProducts(id, name, price, image)
-                    // console.log(id+"==>"+name+"==>"+price+"==>"+length+"==>"+msg.total_pages);
-                });
-
-                let ColorEvent = new Event('getAllBtns');
-                const elem = document.querySelector('.items');
-                elem.dispatchEvent(ColorEvent);
-                console.log("first")
-            
-        })
-    });        
+            else if (page<=p.getPagesNum()-1) {
+                $(".page-link:eq(0)").text(page-1).css({background:'white'})
+                $(".page-link:eq(1)").text(page).css({background:'cyan'})
+                $(".page-link:eq(2)").text(page+1).css({background:'white'})
+            }
+            else if (page<=p.getPagesNum()) {
+                $(".page-link:eq(0)").text(page-2).css({background:'white'})
+                $(".page-link:eq(1)").text(page-1).css({background:'white'})
+                $(".page-link:eq(2)").text(page).css({background:'cyan'})
+                $(".pageNext").hide()
+            }
+        }
+        console.log(e.target.innerText);
+        url= "?limit="+limit+"&page="+page
+        p.useProductPage(url);       
         
     });
-
-
 
     $(".pagePrev").on('click',()=>{
         if (page==1) {
@@ -96,96 +55,51 @@ $(function()
                 $(".pagePrev").hide();
             }
             console.log(page);
-            let url= "?limit="+limit+"&page="+page
-
-            p= new products;
-            p.reListProducts()
-            p.getProductPage(url).then(msg=>{
-                console.log(msg)
-                total_pages = msg.total_pages
-                let items = msg.data;
-                items.forEach(item => {
-                    let id = item.ProductId;
-                    let name = item.Name;
-                    let price = item.Price;
-                    let image = item.ProductPicUrl
-                    let length = items.length
-                    p.listProducts(id, name, price, image)
-                    // console.log(id+"==>"+name+"==>"+price+"==>"+length+"==>"+msg.total_pages);
-                });
-
-                let ColorEvent = new Event('getAllBtns');
-                const elem = document.querySelector('.items');
-                elem.dispatchEvent(ColorEvent);
-                console.log("first")
-            });
+            url= "?limit="+limit+"&page="+page
+            p.useProductPage(url)
         }
     })
     $(".pageNext").on('click',()=>{
-        console.log(total_pages);
-        
-        if (page==total_pages) {
+        if (page==p.getPagesNum()) {
             console.log("end");
         }
         else
         {
             $(".pagePrev").show()
             console.log("=="+page);
-            
             page = page+1
-            if (page<=total_pages-2) {
+            if (page<=p.getPagesNum()-2) {
                 $(".page-link:eq(0)").text(page).css({background:'cyan'})
                 $(".page-link:eq(1)").text(page+1).css({background:'white'})
                 $(".page-link:eq(2)").text(page+2).css({background:'white'})
             }
-            else if (page<=total_pages-1) {
+            else if (page<=p.getPagesNum()-1) {
                 $(".page-link:eq(0)").text(page-1).css({background:'white'})
                 $(".page-link:eq(1)").text(page).css({background:'cyan'})
                 $(".page-link:eq(2)").text(page+1).css({background:'white'})
             }
-            else if (page<=total_pages) {
+            else if (page<=p.getPagesNum()) {
                 $(".page-link:eq(0)").text(page-2).css({background:'white'})
                 $(".page-link:eq(1)").text(page-1).css({background:'white'})
                 $(".page-link:eq(2)").text(page).css({background:'cyan'})
                 $(".pageNext").hide()
             }
-            // $('.page-link').addClass('page-link');
-            console.log(total_pages);
             console.log(page);
-            let url= "?limit="+limit+"&page="+page
-
-            p= new products;
-            p.reListProducts()
-            p.getProductPage(url).then(msg=>{
-                total_pages = msg.total_pages
-                let items = msg.data;
-                items.forEach(item => {
-                    let id = item.ProductId;
-                    let name = item.Name;
-                    let price = item.Price;
-                    let image = item.ProductPicUrl
-                    let length = items.length
-                    p.listProducts(id, name, price, image)
-                    // console.log(id+"==>"+name+"==>"+price+"==>"+length+"==>"+msg.total_pages);
-                });
-
-                let ColorEvent = new Event('getAllBtns');
-                const elem = document.querySelector('.items');
-                elem.dispatchEvent(ColorEvent);
-                console.log("first")
-            });
+            url= "?limit="+limit+"&page="+page
+            p.useProductPage(url)
         }
     })
-
-    
 })
 
 class products
 {
-    getProductPage(urlPage)
+    constructor()
     {
-        
-        return new Promise((resolve, reject)=>{
+        this.total_pages=0;
+    }
+    async getProductPage(urlPage)
+    {
+        return await new Promise((resolve, reject)=>{
             $.ajax({
                 url:"https://afternoon-falls-30227.herokuapp.com/api/v1/products"+urlPage, //path or url 
                 success:function(response)
@@ -198,6 +112,27 @@ class products
                 }
             });
         }) 
+    }
+
+    useProductPage(url)
+    {
+        this.reListProducts()
+        this.getProductPage(url).then(msg=>{
+            this.total_pages = msg.total_pages
+            console.log("total pages:",this.total_pages);
+            let items = msg.data;
+            items.forEach(item => {
+                let id = item.ProductId;
+                let name = item.Name;
+                let price = item.Price;
+                let image = item.ProductPicUrl
+                let length = items.length
+                this.listProducts(id, name, price, image)
+            });
+            let ColorEvent = new Event('getAllBtns');
+            const elem = document.querySelector('.items');
+            elem.dispatchEvent(ColorEvent);
+        });
     }
 
 
@@ -237,5 +172,10 @@ class products
     {
         let items = $(".items")
         items.empty()
+    }
+
+    getPagesNum()
+    {
+        return this.total_pages;
     }
 }
