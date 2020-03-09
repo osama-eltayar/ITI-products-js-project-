@@ -215,12 +215,11 @@ function showDetails(){
         $(".add-to-bag").text("Remove from Cart")
       }
   });
-  $(".add-to-bag").on("click", (e)=>{
-      console.log(itemId);
-      let clickEvent = new CustomEvent("clickCart", {'detail': {id:itemId}});
+  $(".add-to-bag").unbind().on("click", (e)=>{
+      console.log("itemId");
+      let clickEvent = new CustomEvent("clickCart", {'detail': {"id":itemId}});
       const elem = document.querySelector('.items');
       elem.dispatchEvent(clickEvent);
-      
   })
   $('#quick-view-pop-up').fadeToggle();
   $('#quick-view-pop-up').css({"top":"34px", "left":"314px"});

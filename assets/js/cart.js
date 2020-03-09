@@ -41,14 +41,17 @@ $((ev)=>{
     
     //fires when check button is pressed from inside the pop-up
     elem.addEventListener('clickCart', (e) => {
-        idVal = e.detail.id;
+        let idVal = e.detail.id;
+        console.log(idVal);
         setStorage(idVal, idVal);
         $("#"+idVal).toggleClass("cartChecked");
-}, false);
+    }, false);
 
     function setStorage(index, num){
-        prodPrice = $(`.price.${index}`).text();
-        price = $("#price").text();
+        let prodPrice = $(`.price.${index}`).text();
+        let price = $("#price").text();
+        // console.log("num:",num);
+        
         if(localStorage.getItem(index))
         {
             //remove items from localStorage
@@ -64,7 +67,7 @@ $((ev)=>{
             price = (+price) + (+prodPrice)
             countItems+=1;
             item = {"id":num, "q":1, "price":prodPrice};
-            localStorage.setItem(index,JSON.stringify(item));
+            localStorage.setItem(num,JSON.stringify(item));
             $(".add-to-bag").text("Remove from Cart")
         }
         $("#price").text(price);
