@@ -50,22 +50,7 @@ $(function()
         elem.dispatchEvent(ColorEvent);
         elem.dispatchEvent(dataEvent);
 
-        $(".details").on("click",function(){
-          console.log($(this).parent().siblings(".checkout").children().attr("id"));
-          let itemId=$(this).parent().siblings(".checkout").children().attr("id");
-          $.getJSON("https://afternoon-falls-30227.herokuapp.com/api/v1/products/"+itemId, function(result){
-          //console.log(result.data.SupplierName);
-              $("#myImage").attr("src",result.data.ProductPicUrl);
-              $("#myDetailedImage").attr("src",result.data.ProductPicUrl);
-              $(".product-name").text(result.data.Name);
-              $(".description").text(result.data.Description);
-              $(".product-price").text(result.data.Price);
-              $(".status").text("result.data.Status");
-          });
-          $('#quick-view-pop-up').fadeToggle();
-          $('#quick-view-pop-up').css({"top":"34px", "left":"314px"});
-          $('.mask').fadeToggle();
-        })
+        $(".details").on("click",showDetails)
 
         $('.mask').on('click', function(){
             $('.mask').fadeOut();
@@ -114,6 +99,7 @@ $(function()
                 const elem = document.querySelector('.items');
                 elem.dispatchEvent(ColorEvent);
                 console.log("first")
+                $(".details").on("click",showDetails)
 
         })
     });
@@ -159,6 +145,7 @@ $(function()
                 const elem = document.querySelector('.items');
                 elem.dispatchEvent(ColorEvent);
                 console.log("first")
+                $(".details").on("click",showDetails)
             });
         }
     })
@@ -214,6 +201,7 @@ $(function()
                 const elem = document.querySelector('.items');
                 elem.dispatchEvent(ColorEvent);
                 console.log("first")
+                $(".details").on("click",showDetails)
             });
         }
     })
@@ -265,7 +253,7 @@ class products
             </button>`)
         let details =$("<div></div>")
             details.addClass("col-6 text-center border-top pt-3")
-            details.html(`<button class='details btn btn-sm btn-success '>details</button>`)
+            details.html(`<button class="details btn btn-sm btn-success">details</button>`)
 
 
         item.append(cardDiv)
@@ -283,4 +271,23 @@ class products
         let items = $(".items")
         items.empty()
     }
+}
+
+function showDetails(){
+    console.log("clicked");
+    
+  console.log($(this).parent().siblings(".checkout").children().attr("id"));
+  let itemId=$(this).parent().siblings(".checkout").children().attr("id");
+  $.getJSON("https://afternoon-falls-30227.herokuapp.com/api/v1/products/"+itemId, function(result){
+  //console.log(result.data.SupplierName);
+      $("#myImage").attr("src",result.data.ProductPicUrl);
+      $("#myDetailedImage").attr("src",result.data.ProductPicUrl);
+      $(".product-name").text(result.data.Name);
+      $(".description").text(result.data.Description);
+      $(".product-price").text(result.data.Price);
+      $(".status").text("result.data.Status");
+  });
+  $('#quick-view-pop-up').fadeToggle();
+  $('#quick-view-pop-up').css({"top":"34px", "left":"314px"});
+  $('.mask').fadeToggle();
 }
