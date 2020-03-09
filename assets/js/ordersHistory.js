@@ -3,7 +3,8 @@
 const DB_NAME = 'OrdersHistory';
 const DB_V = 1;
 const ORDERS_HISTORY = 'OrdersHistory';
-let db; 
+let db;
+const st = 'OrdersHistory' ;
 
 if ('indexedDB' in window) {
     openDB();
@@ -25,8 +26,34 @@ function openDB() {
 
 
     dbReq.onsuccess = (ev) => {
-        console.log('onsuccess');
         db = ev.target.result;
+        let ts = db.transaction(st, 'readwrite');
+        console.log(ts);
+        let bs = ts.objectStore(st);
+        console.log(bs);
+
+        bs.openCursor().onsuccess = (ev) => {
+            console.log("try try");
+            const cursor = ev.target.result;
+            console.log(cursor);
+            if (cursor) {
+                console.log("cursor");
+                order = cursor.value.order;
+                date = cursor.value.date;
+                status = cursor.value.status;
+                total = cursor.value.total;
+
+
+                $(function () {
+
+                    $("<tr class='table-success'><th scope="+"row"+" >" + order + " </th><td>" + date + "</td><td> " + status + "</td><td> " + total + "</td></tr>").appendTo("#histBody");
+                    // $("<tr class='table-success' ><th scope='row'>" + order + "</th><td>" + date + "</td><td> " + status + "</td><td> " + total + "</td></tr>").appendTo("#histBody");
+                })
+                cursor.continue();
+            }
+            else
+                console.log("done");
+        };        
     }
 
 
@@ -41,12 +68,22 @@ $(".submitBtn").on("click",(ev)=>{
     console.log(getLocalStorageData());
     let items = getLocalStorageData()
     totalPrice = 0;
+    totalQuantity = 0;
     items.forEach(element => {
         console.log(element);
         q = element.q;
         p = element.price;
+        totalQuantity += q; 
         totalPrice += +p * +q;
     });
+    if (totalQuantity==1) 
+    {
+        totalPrice =`$${totalPrice} for ${totalQuantity} item`;
+    }
+    else
+    {
+        totalPrice =`$${totalPrice} for ${totalQuantity} items`;
+    }
     let d = new Date();
     let day = d.getDay();
     let year = d.getFullYear();
