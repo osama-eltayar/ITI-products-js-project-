@@ -1,3 +1,4 @@
+
 $(function()
 {
     let total_pages ;
@@ -132,6 +133,27 @@ class products
             let ColorEvent = new Event('getAllBtns');
             const elem = document.querySelector('.items');
             elem.dispatchEvent(ColorEvent);
+            $(".details").on("click",function(){
+                console.log($(this).parent().siblings(".checkout").children().attr("id"));
+                let itemId=$(this).parent().siblings(".checkout").children().attr("id");
+                $.getJSON("https://afternoon-falls-30227.herokuapp.com/api/v1/products/"+itemId, function(result){
+                //console.log(result.data.SupplierName);
+                    $("#myImage").attr("src",result.data.ProductPicUrl);
+                    $("#myDetailedImage").attr("src",result.data.ProductPicUrl);
+                    $(".product-name").text(result.data.Name);
+                    $(".description").text(result.data.Description);
+                    $(".product-price").text(result.data.Price);
+                    $(".status").text("result.data.Status");
+                });
+                $('#quick-view-pop-up').fadeToggle();
+                $('#quick-view-pop-up').css({"top":"34px", "left":"314px"});
+                $('.mask').fadeToggle();
+                })
+        
+                $('.mask').on('click', function(){
+                    $('.mask').fadeOut();
+                    $('#quick-view-pop-up').fadeOut();
+                });
         });
     }
 
@@ -157,6 +179,11 @@ class products
             checkout.html(`<button class='btn btn-sm btn-light rounded-circle' id="${id}">
                 <img src="https://img.icons8.com/ios/15/000000/checkout.png">
             </button>`)
+        let details =$("<div></div>")
+            details.addClass("col-6 text-center border-top pt-3")
+            details.html(`<button class='details btn btn-sm btn-success '>details</button>`)
+
+    
         
 
         item.append(cardDiv)
@@ -165,6 +192,7 @@ class products
         cardDiv.append(cardBody)
         cardBody.append(price)
         cardBody.append(checkout)
+        cardBody.append(details)
         items.append(item)
     }
 
