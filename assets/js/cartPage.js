@@ -1,12 +1,30 @@
+
+cartProduct = getLocalStorageData();
+cartProduct.forEach((e)=>{
+    getProductData(e);
+    
+})
+
 const elem = document.querySelector('table');
+
 elem.addEventListener('getAllCart', (e) => {
     q = JSON.parse(localStorage.getItem(e.detail.id)).q;
-    $("table tbody").append("<tr>"+
-    "<td width='100px'><img class='img-thumbnail my-2' src='"+e.detail.image+
-    "' width='60px' height='100px'></td><td width='140px'>"+e.detail.name+"</td>"+
-    "<td class='"+e.detail.id+"'>"+e.detail.price+"</td>"+
-    "<td><input class='"+e.detail.id+"' type='text' name='quantity' value='"+q+"'></td>"+
-    "<td class='"+e.detail.id+" total' >"+e.detail.price*q+"</td>"+
+    $("table tbody").append(
+    "<tr>"+
+        "<td width='100px'>"+
+            "<img class='img-thumbnail my-2' src='"+e.detail.image+"' width='60px' height='100px'>"+
+        "</td>"+
+
+        "<td width='140px'>"+e.detail.name+"</td>"+
+
+        "<td class='"+e.detail.id+"'>"+e.detail.price+"</td>"+
+
+        "<td>"+
+            "<input class='"+e.detail.id+"' type='text' name='quantity' value='"+q+"'>"+
+        "</td>"+
+
+        "<td class='"+e.detail.id+" total' >"+e.detail.price*q+"</td>"+
+
     "</tr>");
     getTotalPrice();
     
@@ -40,6 +58,7 @@ $("table").on("click","input" , function() {
     }).change();
 });
 
+//update number of quantities in the localStorage
 function updateQuantity(cls, q){
     quantStorage = JSON.parse(localStorage.getItem(cls))
     quantStorage.q = q;
@@ -47,13 +66,7 @@ function updateQuantity(cls, q){
 }
 
 
-cartProduct = getLocalStorageData();
-cartProduct.forEach((e)=>{
-    getProductData(e);
-    
-})
-
-
+//do a validation check on the quantity entered by the customer
 function checkQuantityValid(quant){
     if(isNaN(quant)){
         return false;
@@ -65,15 +78,16 @@ function getLocalStorageData(){
     arr=[]
     for (i in localStorage) {
         if (localStorage.hasOwnProperty(i)) {
-        if (i.match(/^HT-[0-9]+/)) {
-            value = JSON.parse(localStorage.getItem(i));
-            arr.push(value);
-        }
+            if (i.match(/^HT-[0-9]+/)) {
+                value = JSON.parse(localStorage.getItem(i));
+                arr.push(value);
+            }
         }
     }
     return arr;
 }
-var count = 0;
+
+//get checked product's details to display it on the cart page
 function getProductData(idIndex){
     
     let myFirstPromise = new Promise((resolve, reject) => {
@@ -96,7 +110,6 @@ function getProductData(idIndex){
         let price = item.Price;
         let image = item.ProductPicUrl;
         let quantity = idIndex.q;
-        count++;
         details = 
             {"id":idIndex.id, "name": name, "price": price, "image": image, "quantity":quantity};
         
