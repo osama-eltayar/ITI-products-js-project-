@@ -1,11 +1,32 @@
 $(function()
 {
-    let total_pages 
+
+// $.getJSON("https://afternoon-falls-30227.herokuapp.com/api/v1/products", function(result){
+// console.log(result.data[5].ProductPicUrl);
+// $("#myImage").attr("src",result.data[5].ProductPicUrl);
+// $("#myDetailedImage").attr("src",result.data[5].ProductPicUrl);
+// $(".product-name").text(result.data[5].Name);
+// $(".description").text(result.data[5].Description);
+// $(".product-price").text(result.data[5].Price);
+// $(".status").text(result.data[5].Status);
+// });
+// $('.btn-view').on('click', function(){
+// console.log($(this).parent());
+// $('#quick-view-pop-up').fadeToggle();
+// $('#quick-view-pop-up').css({"top":"34px", "left":"314px"});
+// $('.mask').fadeToggle();
+// });
+
+// $('.mask').on('click', function(){
+// $('.mask').fadeOut();
+// $('#quick-view-pop-up').fadeOut();
+// });
+    let total_pages
     let page=1
     let limit = 9
     $(".pagePrev").hide();
     $(".page-link:eq(0)").text(page).css({background:'cyan'})
-    
+
     let url= "?limit="+limit+"&page="+page
 
     p= new products;
@@ -29,7 +50,27 @@ $(function()
         elem.dispatchEvent(ColorEvent);
         elem.dispatchEvent(dataEvent);
 
-            
+        $(".details").on("click",function(){
+          console.log($(this).parent().siblings(".checkout").children().attr("id"));
+          let itemId=$(this).parent().siblings(".checkout").children().attr("id");
+          $.getJSON("https://afternoon-falls-30227.herokuapp.com/api/v1/products/"+itemId, function(result){
+          //console.log(result.data.SupplierName);
+              $("#myImage").attr("src",result.data.ProductPicUrl);
+              $("#myDetailedImage").attr("src",result.data.ProductPicUrl);
+              $(".product-name").text(result.data.Name);
+              $(".description").text(result.data.Description);
+              $(".product-price").text(result.data.Price);
+              $(".status").text("result.data.Status");
+          });
+          $('#quick-view-pop-up').fadeToggle();
+          $('#quick-view-pop-up').css({"top":"34px", "left":"314px"});
+          $('.mask').fadeToggle();
+        })
+
+        $('.mask').on('click', function(){
+            $('.mask').fadeOut();
+            $('#quick-view-pop-up').fadeOut();
+        });
         $(".page-link").on('click', (e)=>{
             page = parseInt(e.target.innerText);
             let url= "?limit="+limit+"&page="+page
@@ -73,10 +114,10 @@ $(function()
                 const elem = document.querySelector('.items');
                 elem.dispatchEvent(ColorEvent);
                 console.log("first")
-            
+
         })
-    });        
-        
+    });
+
     });
 
 
@@ -123,7 +164,7 @@ $(function()
     })
     $(".pageNext").on('click',()=>{
         console.log(total_pages);
-        
+
         if (page==total_pages) {
             console.log("end");
         }
@@ -131,7 +172,7 @@ $(function()
         {
             $(".pagePrev").show()
             console.log("=="+page);
-            
+
             page = page+1
             if (page<=total_pages-2) {
                 $(".page-link:eq(0)").text(page).css({background:'cyan'})
@@ -177,19 +218,19 @@ $(function()
         }
     })
 
-    
+
 })
 
 class products
 {
     getProductPage(urlPage)
     {
-        
+
         return new Promise((resolve, reject)=>{
             $.ajax({
-                url:"https://afternoon-falls-30227.herokuapp.com/api/v1/products"+urlPage, //path or url 
+                url:"https://afternoon-falls-30227.herokuapp.com/api/v1/products"+urlPage, //path or url
                 success:function(response)
-                { 
+                {
                     resolve(response)
                 } ,
                 error:function()
@@ -197,12 +238,12 @@ class products
                     reject("error xxx")
                 }
             });
-        }) 
+        })
     }
 
 
     listProducts(id, name, priceVal, image)
-    {
+    {   //console.log(id);
         let items = $(".items")
         let item = $("<div></div>")
           item.addClass("col col-sm-6 col-md-4 item p-2 p-md-2  text-center")
@@ -222,7 +263,10 @@ class products
             checkout.html(`<button class='btn btn-sm btn-light rounded-circle' id="${id}">
                 <img src="https://img.icons8.com/ios/15/000000/checkout.png">
             </button>`)
-        
+        let details =$("<div></div>")
+            details.addClass("col-6 text-center border-top pt-3")
+            details.html(`<button class='details btn btn-sm btn-success '>details</button>`)
+
 
         item.append(cardDiv)
         cardDiv.append(itemTitle)
@@ -230,6 +274,7 @@ class products
         cardDiv.append(cardBody)
         cardBody.append(price)
         cardBody.append(checkout)
+        cardBody.append(details)
         items.append(item)
     }
 
