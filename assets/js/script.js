@@ -12,29 +12,29 @@ $(function()
     $(".pagePrev").hide();
     $(".page-link:eq(0)").text(page).css({background:'orange'})
 
-    /*************************************************************************/
-    $("#searchBox").keypress(function(event){
-                var keycode = (event.keyCode ? event.keyCode : event.which);
-                if(keycode == '13'){
-                  //  console.log($(this).val());
-                    //alert('You pressed a "enter" key in textbox');
-                     url= "?q="+$(this).val();
-                    console.log(url);
-                  //  alert('You pressed a "enter" key in textbox');
-                    p= new products;
-                    p.useProductPage(url)
-                    elem.dispatchEvent(dataEvent);
-                }
-              //  event.stopPropagation();
-            });
-    /*************************************************************************/
-
     let p= new products;
     p.useProductPage(url).then((ev)=>{
         let dataEvent = new Event('getAllCheckedData');
         const elem = document.querySelector('.items');
         elem.dispatchEvent(dataEvent);
     });
+
+    /*************************************************************************/
+    $("#searchBox").keypress(function(event){
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if(keycode == '13'){
+          //  console.log($(this).val());
+            //alert('You pressed a "enter" key in textbox');
+             url= "?q="+$(this).val();
+            console.log(url);
+          //  alert('You pressed a "enter" key in textbox');
+            // p= new products;
+            p.useProductPage(url)
+            // elem.dispatchEvent(dataEvent);
+        }
+      //  event.stopPropagation();
+    });
+/*************************************************************************/
 
     $(".page-link").on('click', (e)=>{
         page = parseInt(e.target.innerText);
