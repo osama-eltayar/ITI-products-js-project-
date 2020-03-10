@@ -8,10 +8,10 @@ $(function()
     let dataEvent = new Event('getAllCheckedData');
     const elem = document.querySelector('.items');
     elem.dispatchEvent(dataEvent);
-    
+
     $(".pagePrev").hide();
-    $(".page-link:eq(0)").text(page).css({background:'cyan'})
-    
+    $(".page-link:eq(0)").text(page).css({background:'orange'})
+
     let p= new products;
     p.useProductPage(url).then((ev)=>{
         let dataEvent = new Event('getAllCheckedData');
@@ -19,24 +19,41 @@ $(function()
         elem.dispatchEvent(dataEvent);
     });
 
+    /*************************************************************************/
+    $("#searchBox").keypress(function(event){
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if(keycode == '13'){
+          //  console.log($(this).val());
+            //alert('You pressed a "enter" key in textbox');
+             url= "?q="+$(this).val();
+            console.log(url);
+          //  alert('You pressed a "enter" key in textbox');
+            // p= new products;
+            p.useProductPage(url)
+            // elem.dispatchEvent(dataEvent);
+        }
+      //  event.stopPropagation();
+    });
+/*************************************************************************/
+
     $(".page-link").on('click', (e)=>{
         page = parseInt(e.target.innerText);
         if (page != 1) {
             $(".pagePrev").show()
             if (page<=p.getPagesNum()-2) {
-                $(".page-link:eq(0)").text(page).css({background:'cyan'})
+                $(".page-link:eq(0)").text(page).css({background:'orange'})
                 $(".page-link:eq(1)").text(page+1).css({background:'white'})
                 $(".page-link:eq(2)").text(page+2).css({background:'white'})
             }
             else if (page<=p.getPagesNum()-1) {
                 $(".page-link:eq(0)").text(page-1).css({background:'white'})
-                $(".page-link:eq(1)").text(page).css({background:'cyan'})
+                $(".page-link:eq(1)").text(page).css({background:'orange'})
                 $(".page-link:eq(2)").text(page+1).css({background:'white'})
             }
             else if (page<=p.getPagesNum()) {
                 $(".page-link:eq(0)").text(page-2).css({background:'white'})
                 $(".page-link:eq(1)").text(page-1).css({background:'white'})
-                $(".page-link:eq(2)").text(page).css({background:'cyan'})
+                $(".page-link:eq(2)").text(page).css({background:'orange'})
                 $(".pageNext").hide()
             }
         }
@@ -54,7 +71,7 @@ $(function()
         {
             $(".pageNext").show()
             page = page-1
-            $(".page-link:eq(0)").text(page).css({background:'cyan'})
+            $(".page-link:eq(0)").text(page).css({background:'orange'})
             $(".page-link:eq(1)").text(page+1).css({background:'white'})
             $(".page-link:eq(2)").text(page+2).css({background:'white'})
             if (page==1) {
@@ -75,19 +92,19 @@ $(function()
             console.log("=="+page);
             page = page+1
             if (page <= p.getPagesNum()-2) {
-                $(".page-link:eq(0)").text(page).css({background:'cyan'})
+                $(".page-link:eq(0)").text(page).css({background:'orange'})
                 $(".page-link:eq(1)").text(page+1).css({background:'white'})
                 $(".page-link:eq(2)").text(page+2).css({background:'white'})
             }
             else if (page<=p.getPagesNum()-1) {
                 $(".page-link:eq(0)").text(page-1).css({background:'white'})
-                $(".page-link:eq(1)").text(page).css({background:'cyan'})
+                $(".page-link:eq(1)").text(page).css({background:'orange'})
                 $(".page-link:eq(2)").text(page+1).css({background:'white'})
             }
             else if (page<=p.getPagesNum()) {
                 $(".page-link:eq(0)").text(page-2).css({background:'white'})
                 $(".page-link:eq(1)").text(page-1).css({background:'white'})
-                $(".page-link:eq(2)").text(page).css({background:'cyan'})
+                $(".page-link:eq(2)").text(page).css({background:'orange'})
                 $(".pageNext").hide()
             }
             console.log(page);
@@ -207,21 +224,21 @@ function showDetails(){
       $(".product-name").text(result.data.Name);
       $(".description").text(result.data.Description);
       $(".product-price").text(result.data.Price);
-      
-      $(".status").text("result.data.Status");
-      
+
+      $(".status").text(result.data.Status);
+
       $(".add-to-bag").text("Add to Cart")
       if(localStorage.hasOwnProperty(itemId))
       {
         $(".add-to-bag").text("Remove from Cart")
       }
   });
-  $(".add-to-bag").on("click", (e)=>{
-      console.log(itemId);
-      let clickEvent = new CustomEvent("clickCart", {'detail': {id:itemId}});
-      const elem = document.querySelector('.add-to-bag');
+
+  $(".add-to-bag").unbind().on("click", (e)=>{
+      console.log("itemId");
+      let clickEvent = new CustomEvent("clickCart", {'detail': {"id":itemId}});
+      const elem = document.querySelector('.items');
       elem.dispatchEvent(clickEvent);
-      
   })
   $('#quick-view-pop-up').fadeToggle();
   $('#quick-view-pop-up').css({"top":"34px", "left":"314px"});
