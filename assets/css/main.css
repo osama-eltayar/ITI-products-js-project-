@@ -276,3 +276,7 @@ a.view-more-detail {
   text-align: center;
   color: #FFF;
 }
+
+#searchBox{
+  max-width: 300px;
+}
