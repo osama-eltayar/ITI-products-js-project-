@@ -225,7 +225,7 @@ function showDetails(){
       $(".description").text(result.data.Description);
       $(".product-price").text(result.data.Price);
 
-      $(".status").text("result.data.Status");
+      $(".status").text(result.data.Status);
 
       $(".add-to-bag").text("Add to Cart")
       if(localStorage.hasOwnProperty(itemId))
