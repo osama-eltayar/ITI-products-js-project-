@@ -10,7 +10,7 @@ const elem = document.querySelector('table');
 elem.addEventListener('getAllCart', (e) => {
     q = JSON.parse(localStorage.getItem(e.detail.id)).q;
     $("table tbody").append(
-    "<tr>"+
+    "<tr class='"+e.detail.id+"-row'>"+
         "<td width='100px'>"+
             "<img class='img-thumbnail my-2' src='"+e.detail.image+"' width='60px' height='100px'>"+
         "</td>"+
@@ -25,23 +25,30 @@ elem.addEventListener('getAllCart', (e) => {
 
         "<td class='"+e.detail.id+" total' >"+e.detail.price*q+"</td>"+
 
+        "<td><button class='"+e.detail.id+" rounded-circle bg-danger text-white'>x</button></td>"+
+
     "</tr>");
     getTotalPrice();
     
 }, false);
 
+$(".cartTable").on("click", "button", (ev)=>{
+    btnClicked = ev.target.className.split(" ")[0];
+    localStorage.removeItem(btnClicked);
+    $("tr."+btnClicked+"-row").remove();
+    getTotalPrice();
+});
+
 getTotalPrice()
 function getTotalPrice(){
     tot = 0;
     $(".total").each((i,el)=>{
-        console.log(el);
         tot += +el.innerText
     });
     $(".totPrice").val(tot)
-    console.log("tot:", tot);
 }
 
-$("table").on("click","input" , function() {
+$("table").on("focus","input" , function() {
     clsName = $(this)[0].className;
     $("."+clsName+":eq(1)").change(function() {
         prodPrice = Number($("."+clsName+":eq(0)").text());
@@ -51,7 +58,6 @@ $("table").on("click","input" , function() {
             prodQuantity = 1;
         }
         updateQuantity(clsName, prodQuantity);
-        console.log(quantStorage.q);
         let total = prodPrice * prodQuantity;
         $("."+clsName+".total").html(total);
         getTotalPrice();
@@ -68,7 +74,9 @@ function updateQuantity(cls, q){
 
 //do a validation check on the quantity entered by the customer
 function checkQuantityValid(quant){
-    if(isNaN(quant)){
+    console.log(quant);
+    
+    if(isNaN(quant)||quant==0){
         return false;
     }
     return true;

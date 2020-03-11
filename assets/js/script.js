@@ -57,7 +57,7 @@ $(function()
                 $(".pageNext").hide()
             }
         }
-        console.log(e.target.innerText);
+        // console.log(e.target.innerText);
         url= "?limit="+limit+"&page="+page
         p.useProductPage(url);
 
