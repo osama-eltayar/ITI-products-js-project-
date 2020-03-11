@@ -144,9 +144,19 @@ $(function()
     {
         category = ev.target.text;
         console.log(category);
-        catFlag=true;
-        page=1;
-        url = "?limit=" + limit + "&page=" + page + "&category="+category;
+        if (category != "All")
+        {
+            catFlag = true;
+            page = 1;
+            url = "?limit=" + limit + "&page=" + page + "&category=" + category;
+        }
+        else
+        {
+            catFlag = false;
+            page = 1;
+            url = "?limit=" + limit + "&page=" + page ;
+        }
+        
         p.useProductPage(url)
     }
 // **********************************************************************
