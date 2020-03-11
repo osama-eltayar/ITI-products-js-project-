@@ -7,6 +7,10 @@ $(function()
     let url= "?limit="+limit+"&page="+page
     let dataEvent = new Event('getAllCheckedData');
     const elem = document.querySelector('.items');
+    const cate = document.querySelector("#ddnav");
+    cate.addEventListener('click',chooseCategory);
+    let category ;
+    let catFlag=false;
     elem.dispatchEvent(dataEvent);
 
     $(".pagePrev").hide();
@@ -58,7 +62,11 @@ $(function()
             }
         }
         console.log(e.target.innerText);
-        url= "?limit="+limit+"&page="+page
+        if (!catFlag)
+            url = "?limit=" + limit + "&page=" + page
+        else
+            url = "?limit=" + limit + "&page=" + page + "&category=" + category;
+        console.log("page    " + url);
         p.useProductPage(url);
 
     });
@@ -78,7 +86,10 @@ $(function()
                 $(".pagePrev").hide();
             }
             console.log(page);
-            url= "?limit="+limit+"&page="+page
+            if (!catFlag)
+                url = "?limit=" + limit + "&page=" + page
+            else
+                url = "?limit=" + limit + "&page=" + page + "&category=" + category;
             p.useProductPage(url)
         }
     })
@@ -108,10 +119,38 @@ $(function()
                 $(".pageNext").hide()
             }
             console.log(page);
-            url= "?limit="+limit+"&page="+page
+            if (!catFlag)
+                url = "?limit=" + limit + "&page=" + page
+            else
+                url = "?limit=" + limit + "&page=" + page + "&category=" + category;
             p.useProductPage(url)
         }
     })
+    // *********************************************************************
+    // list categories 
+    $.ajax({
+        method: "GET",
+        url: "https://afternoon-falls-30227.herokuapp.com/api/v1/products-stats/"
+    })
+    .done(function (response) {
+        let cats = Object.keys(response.data.Groups.Category)
+        console.log("--------------------");
+        cats.forEach((value)=>{
+            console.log(value);
+            $("<a class=dropdown-item href=#>"+value+"</a>").appendTo("#ddnav");
+        })
+    });
+    function chooseCategory(ev)
+    {
+        category = ev.target.text;
+        console.log(category);
+        catFlag=true;
+        page=1;
+        url = "?limit=" + limit + "&page=" + page + "&category="+category;
+        p.useProductPage(url)
+    }
+// **********************************************************************
+    
 })
 
 class products
