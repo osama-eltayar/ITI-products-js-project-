@@ -7,10 +7,14 @@ $(function()
     let url= "?limit="+limit+"&page="+page
     let dataEvent = new Event('getAllCheckedData');
     const elem = document.querySelector('.items');
-    const cate = document.querySelector("#ddnav");
+    const cate = document.querySelector("#catnav");
+    const supname = document.querySelector("#supnav");
     cate.addEventListener('click',chooseCategory);
     let category ;
     let catFlag=false;
+    supname.addEventListener('click', chooseSupplier);
+    let supplier;
+    let supFlag = false;
     elem.dispatchEvent(dataEvent);
 
     $(".pagePrev").hide();
@@ -62,10 +66,12 @@ $(function()
             }
         }
         console.log(e.target.innerText);
-        if (!catFlag)
-            url = "?limit=" + limit + "&page=" + page
-        else
+        if (catFlag)
             url = "?limit=" + limit + "&page=" + page + "&category=" + category;
+        else if (supFlag)
+            url = "?limit=" + limit + "&page=" + page + "&supplier=" + supplier;
+        else
+            url = "?limit=" + limit + "&page=" + page;
         console.log("page    " + url);
         p.useProductPage(url);
 
@@ -86,10 +92,12 @@ $(function()
                 $(".pagePrev").hide();
             }
             console.log(page);
-            if (!catFlag)
-                url = "?limit=" + limit + "&page=" + page
-            else
+            if (catFlag)
                 url = "?limit=" + limit + "&page=" + page + "&category=" + category;
+            else if (supFlag)
+                url = "?limit=" + limit + "&page=" + page + "&supplier=" + supplier;
+            else
+                url = "?limit=" + limit + "&page=" + page;
             p.useProductPage(url)
         }
     })
@@ -119,27 +127,36 @@ $(function()
                 $(".pageNext").hide()
             }
             console.log(page);
-            if (!catFlag)
-                url = "?limit=" + limit + "&page=" + page
-            else
+            if (catFlag)
                 url = "?limit=" + limit + "&page=" + page + "&category=" + category;
+            else if(supFlag)
+                url = "?limit=" + limit + "&page=" + page + "&supplier=" + supplier;
+            else
+                url = "?limit=" + limit + "&page=" + page;    
             p.useProductPage(url)
         }
     })
     // *********************************************************************
-    // list categories 
+    // list categories  & suppliers
     $.ajax({
         method: "GET",
         url: "https://afternoon-falls-30227.herokuapp.com/api/v1/products-stats/"
     })
     .done(function (response) {
         let cats = Object.keys(response.data.Groups.Category)
+        let supps = Object.keys(response.data.Groups.SupplierName);
+        console.log(supps);
         console.log("--------------------");
         cats.forEach((value)=>{
             console.log(value);
-            $("<a class=dropdown-item href=#>"+value+"</a>").appendTo("#ddnav");
+            $("<a class=dropdown-item >"+value+"</a>").appendTo("#catnav");
+        })
+        supps.forEach((na) => {
+            console.log(na+"    item");
+            $("<a class=dropdown-item >" + na + "</a>").appendTo("#supnav");
         })
     });
+    // **************************************
     function chooseCategory(ev)
     {
         category = ev.target.text;
@@ -160,6 +177,24 @@ $(function()
         p.useProductPage(url)
     }
 // **********************************************************************
+    function chooseSupplier(ev) {
+        supplier = ev.target.text;
+        console.log(supplier);
+        if (supplier != "All") {
+            supFlag = true;
+            catFlag = false;
+            page = 1;
+            url = "?limit=" + limit + "&page=" + page + "&supplier=" + supplier;
+        }
+        else {
+            supFlag = false;
+            page = 1;
+            url = "?limit=" + limit + "&page=" + page;
+        }
+
+        p.useProductPage(url)
+    }
+    // *******************************************************************
     
 })
 
