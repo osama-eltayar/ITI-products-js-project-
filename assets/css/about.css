@@ -1,7 +1,26 @@
 .head{
     border-bottom: 1px solid lightgray;
+    position: relative;
 }
-strong{
+strong:not(a strong){
     color: #2878a7;
     margin-bottom: 10px;
+}
+
+
+
+#team{
+    position: absolute;
+    bottom: -40px;
+    left: 40%;
+    z-index: 1;
+    color: white;
+    background-color: chocolate;
+    width: 200px;
+    text-align: center;
+    /* height: 120px; */
+    border: 2px solid #2889a7;
+    transform: rotate(-10deg);
+    /* border-radius: 120px; */
+
 }

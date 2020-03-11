@@ -7,7 +7,6 @@ $((ev)=>{
     //fires when all the products are fetched from the api and listed in the home page
     //to view which product was checked before and stored in the localStorage
     elem.addEventListener('getAllBtns', (e) => {
-        console.log("kkkkk");
         
         $(".items button[id^='HT-']").each((i,el)=>{
             idIndex = $(el).attr("id");
@@ -20,7 +19,6 @@ $((ev)=>{
     //fires when all the products are fetched from the api and listed in the home page
     elem.addEventListener('getAllCheckedData', (e) => {
             Object.values(localStorage).forEach(element => {
-                console.log("counting");
                 
                 element = JSON.parse(element);
                 q = element.q;
@@ -43,7 +41,6 @@ $((ev)=>{
     //fires when check button is pressed from inside the pop-up
     elem.addEventListener('clickCart', (e) => {
         let idVal = e.detail.id;
-        console.log(idVal);
         setStorage(idVal, idVal);
         $("#"+idVal).toggleClass("cartChecked");
     }, false);

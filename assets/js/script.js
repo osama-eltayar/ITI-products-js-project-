@@ -65,6 +65,7 @@ $(function()
                 $(".pageNext").hide()
             }
         }
+        
         console.log(e.target.innerText);
         if (catFlag)
             url = "?limit=" + limit + "&page=" + page + "&category=" + category;
