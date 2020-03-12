@@ -66,6 +66,14 @@ $(function()
         }
     })
     $(".pageNext").on('click',()=>{
+        // https://www.sitepoint.com/get-url-parameters-with-javascript/
+        // url = "contact.html?id=1"
+        // window.location.href = url;
+        // const queryString = window.location.search;
+        // console.log(queryString);
+        // const urlParams = new URLSearchParams(queryString);
+        // const id = urlParams.get('id')
+        // console.log(id);
         if (page == p.getPagesNum()) {
             console.log("end");
         }
@@ -120,10 +128,28 @@ class products
         })
     }
 
-    useProductPage(url)
+    async useProductPage(url)
     {
-        this.reListProducts()
-        return this.getProductPage(url).then(msg=>{
+        let urlPage = url;
+        let promise = new Promise((resolve, reject)=>{
+            $.ajax({
+                url:"https://afternoon-falls-30227.herokuapp.com/api/v1/products"+urlPage, //path or url
+                success:function(response)
+                {
+                    resolve(response)
+                } ,
+                error:function()
+                {
+                    reject("error xxx")
+                },
+                complete: function(){
+                $('#loading').hide();
+                }
+            });
+        })
+        let msg = await promise;
+        this.reListProducts();
+        // return this.getProductPage(url).then(msg=>{
             this.total_pages = msg.total_pages
             console.log("total pages:",this.total_pages);
             let items = msg.data;
@@ -144,7 +170,7 @@ class products
                 $('.mask').fadeOut();
                 $('#quick-view-pop-up').fadeOut();
             });
-        });
+        // });
     }
 
 
