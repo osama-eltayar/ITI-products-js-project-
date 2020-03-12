@@ -4,6 +4,10 @@ subjectText = document.querySelector('#subject');
 messageText = document.querySelector('#message');
 subbtn = document.querySelector('#subbtn');
 nameFlag=subFlag=mailFlag=false;
+$('#helpname').hide();
+$('#helpmail').hide();
+$('#helpsub').hide();
+$('#sent').hide();
 
 nameText.addEventListener("keyup", validateName);
 subjectText.addEventListener("keyup", validateSub);
@@ -25,6 +29,7 @@ function validateName()
         console.log("ok");
         $(this).removeClass("is-invalid");
         $(this).addClass("is-valid");
+        $('#helpname').hide();
         nameFlag = true;
     }         
 }
@@ -42,6 +47,7 @@ function validateSub()
         console.log("ok");
         $(this).removeClass("is-invalid");
         $(this).addClass("is-valid");
+        $('#helpsub').hide();
         subFlag = true;
     }
 }
@@ -54,7 +60,8 @@ function validateEmail()
     {
         console.log("ok");
         $(this).removeClass("is-invalid");
-        $(this).addClass("is-valid"); 
+        $(this).addClass("is-valid");
+        $('#helpmail').hide(); 
         mailFlag=true;
         
     }
@@ -72,8 +79,9 @@ function send()
 {
     console.log(messageText.value.length);
 
-    if(nameFlag && mailFlag && subFlag && messageText.value.length >0)
+    if(subFlag==true)
     {
+        console.log(subFlag);
         dataobj={
             name:nameText.value,
             email:mailText.value,
@@ -84,16 +92,63 @@ function send()
         var datajson=JSON.stringify(dataobj);
         console.log(datajson);
         $(function(){
-            $.ajax({
+           var req= $.ajax({
                 method:"POST",
                 contentType: "application/json",
                 url: "https://afternoon-falls-30227.herokuapp.com/api/v1/contact_us",
                 data: datajson,
                 dataType: "json",
-                success:function(data,status,xhr){
-                    console.log("success");
-                },           
+                cache: false
+            });
+            req.done(function(res){
+                console.log(res.message)
+                $('#sent').text(res.message);
+                $('#sent').show();
+                $("#helpname").hide();
+                $('#helpmail').hide();
+                $('#helpsub').hide();
             })
+            req.fail(function(){
+                console.log("failed")
+                $('#sent').hide();
+                res=JSON.parse(req.responseText).error
+                console.log(res)
+                if(res.name)
+                {
+                    $("#helpname").show();
+                    $(nameText).removeClass("is-valid");
+                    $(nameText).addClass("is-invalid");
+                }
+                if(res.email)
+                {
+                    $('#helpmail').show();
+                    $(mailText).removeClass("is-valid");
+                    $(mailText).addClass("is-invalid");
+
+                }
+             
+            });
+             
         })
-    }  
+    }
+    else
+    {
+        $('#sent').hide();
+        $('#helpsub').show();
+        $(subjectText).removeClass("is-valid");
+        $(subjectText).addClass("is-invalid");
+        if(!nameFlag)
+        {
+            $("#helpname").show();
+            $(nameText).removeClass("is-valid");
+            $(nameText).addClass("is-invalid");
+        }
+        if(!mailFlag)
+        {
+            $('#helpmail').show();
+            $(mailText).removeClass("is-valid");
+            $(mailText).addClass("is-invalid");
+        }
+    }
+
 }

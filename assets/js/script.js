@@ -7,11 +7,19 @@ $(function()
     let url= "?limit="+limit+"&page="+page
     let dataEvent = new Event('getAllCheckedData');
     const elem = document.querySelector('.items');
+    const cate = document.querySelector("#catnav");
+    const supname = document.querySelector("#supnav");
+    cate.addEventListener('click',chooseCategory);
+    let category ;
+    let catFlag=false;
+    supname.addEventListener('click', chooseSupplier);
+    let supplier;
+    let supFlag = false;
     elem.dispatchEvent(dataEvent);
-    
+
     $(".pagePrev").hide();
-    $(".page-link:eq(0)").text(page).css({background:'cyan'})
-    
+    $(".page-link:eq(0)").text(page).css({background:'orange'})
+
     let p= new products;
     p.useProductPage(url).then((ev)=>{
         let dataEvent = new Event('getAllCheckedData');
@@ -19,29 +27,53 @@ $(function()
         elem.dispatchEvent(dataEvent);
     });
 
+    /*************************************************************************/
+    $("#searchBox").keypress(function(event){
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if(keycode == '13'){
+          //  console.log($(this).val());
+            //alert('You pressed a "enter" key in textbox');
+             url= "?q="+$(this).val();
+            console.log(url);
+          //  alert('You pressed a "enter" key in textbox');
+            // p= new products;
+            p.useProductPage(url)
+            // elem.dispatchEvent(dataEvent);
+        }
+      //  event.stopPropagation();
+    });
+/*************************************************************************/
+
     $(".page-link").on('click', (e)=>{
         page = parseInt(e.target.innerText);
         if (page != 1) {
             $(".pagePrev").show()
             if (page<=p.getPagesNum()-2) {
-                $(".page-link:eq(0)").text(page).css({background:'cyan'})
+                $(".page-link:eq(0)").text(page).css({background:'orange'})
                 $(".page-link:eq(1)").text(page+1).css({background:'white'})
                 $(".page-link:eq(2)").text(page+2).css({background:'white'})
             }
             else if (page<=p.getPagesNum()-1) {
                 $(".page-link:eq(0)").text(page-1).css({background:'white'})
-                $(".page-link:eq(1)").text(page).css({background:'cyan'})
+                $(".page-link:eq(1)").text(page).css({background:'orange'})
                 $(".page-link:eq(2)").text(page+1).css({background:'white'})
             }
             else if (page<=p.getPagesNum()) {
                 $(".page-link:eq(0)").text(page-2).css({background:'white'})
                 $(".page-link:eq(1)").text(page-1).css({background:'white'})
-                $(".page-link:eq(2)").text(page).css({background:'cyan'})
+                $(".page-link:eq(2)").text(page).css({background:'orange'})
                 $(".pageNext").hide()
             }
         }
+        
         console.log(e.target.innerText);
-        url= "?limit="+limit+"&page="+page
+        if (catFlag)
+            url = "?limit=" + limit + "&page=" + page + "&category=" + category;
+        else if (supFlag)
+            url = "?limit=" + limit + "&page=" + page + "&supplier=" + supplier;
+        else
+            url = "?limit=" + limit + "&page=" + page;
+        console.log("page    " + url);
         p.useProductPage(url);
 
     });
@@ -54,14 +86,19 @@ $(function()
         {
             $(".pageNext").show()
             page = page-1
-            $(".page-link:eq(0)").text(page).css({background:'cyan'})
+            $(".page-link:eq(0)").text(page).css({background:'orange'})
             $(".page-link:eq(1)").text(page+1).css({background:'white'})
             $(".page-link:eq(2)").text(page+2).css({background:'white'})
             if (page==1) {
                 $(".pagePrev").hide();
             }
             console.log(page);
-            url= "?limit="+limit+"&page="+page
+            if (catFlag)
+                url = "?limit=" + limit + "&page=" + page + "&category=" + category;
+            else if (supFlag)
+                url = "?limit=" + limit + "&page=" + page + "&supplier=" + supplier;
+            else
+                url = "?limit=" + limit + "&page=" + page;
             p.useProductPage(url)
         }
     })
@@ -83,26 +120,91 @@ $(function()
             console.log("=="+page);
             page = page+1
             if (page <= p.getPagesNum()-2) {
-                $(".page-link:eq(0)").text(page).css({background:'cyan'})
+                $(".page-link:eq(0)").text(page).css({background:'orange'})
                 $(".page-link:eq(1)").text(page+1).css({background:'white'})
                 $(".page-link:eq(2)").text(page+2).css({background:'white'})
             }
             else if (page<=p.getPagesNum()-1) {
                 $(".page-link:eq(0)").text(page-1).css({background:'white'})
-                $(".page-link:eq(1)").text(page).css({background:'cyan'})
+                $(".page-link:eq(1)").text(page).css({background:'orange'})
                 $(".page-link:eq(2)").text(page+1).css({background:'white'})
             }
             else if (page<=p.getPagesNum()) {
                 $(".page-link:eq(0)").text(page-2).css({background:'white'})
                 $(".page-link:eq(1)").text(page-1).css({background:'white'})
-                $(".page-link:eq(2)").text(page).css({background:'cyan'})
+                $(".page-link:eq(2)").text(page).css({background:'orange'})
                 $(".pageNext").hide()
             }
             console.log(page);
-            url= "?limit="+limit+"&page="+page
+            if (catFlag)
+                url = "?limit=" + limit + "&page=" + page + "&category=" + category;
+            else if(supFlag)
+                url = "?limit=" + limit + "&page=" + page + "&supplier=" + supplier;
+            else
+                url = "?limit=" + limit + "&page=" + page;    
             p.useProductPage(url)
         }
     })
+    // *********************************************************************
+    // list categories  & suppliers
+    $.ajax({
+        method: "GET",
+        url: "https://afternoon-falls-30227.herokuapp.com/api/v1/products-stats/"
+    })
+    .done(function (response) {
+        let cats = Object.keys(response.data.Groups.Category)
+        let supps = Object.keys(response.data.Groups.SupplierName);
+        console.log(supps);
+        console.log("--------------------");
+        cats.forEach((value)=>{
+            console.log(value);
+            $("<a class=dropdown-item >"+value+"</a>").appendTo("#catnav");
+        })
+        supps.forEach((na) => {
+            console.log(na+"    item");
+            $("<a class=dropdown-item >" + na + "</a>").appendTo("#supnav");
+        })
+    });
+    // **************************************
+    function chooseCategory(ev)
+    {
+        category = ev.target.text;
+        console.log(category);
+        if (category != "All")
+        {
+            catFlag = true;
+            page = 1;
+            url = "?limit=" + limit + "&page=" + page + "&category=" + category;
+        }
+        else
+        {
+            catFlag = false;
+            page = 1;
+            url = "?limit=" + limit + "&page=" + page ;
+        }
+        
+        p.useProductPage(url)
+    }
+// **********************************************************************
+    function chooseSupplier(ev) {
+        supplier = ev.target.text;
+        console.log(supplier);
+        if (supplier != "All") {
+            supFlag = true;
+            catFlag = false;
+            page = 1;
+            url = "?limit=" + limit + "&page=" + page + "&supplier=" + supplier;
+        }
+        else {
+            supFlag = false;
+            page = 1;
+            url = "?limit=" + limit + "&page=" + page;
+        }
+
+        p.useProductPage(url)
+    }
+    // *******************************************************************
+    
 })
 
 class products
@@ -233,21 +335,21 @@ function showDetails(){
       $(".product-name").text(result.data.Name);
       $(".description").text(result.data.Description);
       $(".product-price").text(result.data.Price);
-      
-      $(".status").text("result.data.Status");
-      
+
+      $(".status").text(result.data.Status);
+
       $(".add-to-bag").text("Add to Cart")
       if(localStorage.hasOwnProperty(itemId))
       {
         $(".add-to-bag").text("Remove from Cart")
       }
   });
-  $(".add-to-bag").on("click", (e)=>{
-      console.log(itemId);
-      let clickEvent = new CustomEvent("clickCart", {'detail': {id:itemId}});
-      const elem = document.querySelector('.add-to-bag');
+
+  $(".add-to-bag").unbind().on("click", (e)=>{
+      console.log("itemId");
+      let clickEvent = new CustomEvent("clickCart", {'detail': {"id":itemId}});
+      const elem = document.querySelector('.items');
       elem.dispatchEvent(clickEvent);
-      
   })
   $('#quick-view-pop-up').fadeToggle();
   $('#quick-view-pop-up').css({"top":"34px", "left":"314px"});

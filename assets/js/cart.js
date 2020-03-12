@@ -7,7 +7,6 @@ $((ev)=>{
     //fires when all the products are fetched from the api and listed in the home page
     //to view which product was checked before and stored in the localStorage
     elem.addEventListener('getAllBtns', (e) => {
-        console.log("kkkkk");
         
         $(".items button[id^='HT-']").each((i,el)=>{
             idIndex = $(el).attr("id");
@@ -20,7 +19,6 @@ $((ev)=>{
     //fires when all the products are fetched from the api and listed in the home page
     elem.addEventListener('getAllCheckedData', (e) => {
             Object.values(localStorage).forEach(element => {
-                console.log("counting");
                 
                 element = JSON.parse(element);
                 q = element.q;
@@ -42,14 +40,16 @@ $((ev)=>{
     
     //fires when check button is pressed from inside the pop-up
     elem.addEventListener('clickCart', (e) => {
-        idVal = e.detail.id;
+        let idVal = e.detail.id;
         setStorage(idVal, idVal);
         $("#"+idVal).toggleClass("cartChecked");
-}, false);
+    }, false);
 
     function setStorage(index, num){
-        prodPrice = $(`.price.${index}`).text();
-        price = $("#price").text();
+        let prodPrice = $(`.price.${index}`).text();
+        let price = $("#price").text();
+        // console.log("num:",num);
+        
         if(localStorage.getItem(index))
         {
             //remove items from localStorage
@@ -65,7 +65,7 @@ $((ev)=>{
             price = (+price) + (+prodPrice)
             countItems+=1;
             item = {"id":num, "q":1, "price":prodPrice};
-            localStorage.setItem(index,JSON.stringify(item));
+            localStorage.setItem(num,JSON.stringify(item));
             $(".add-to-bag").text("Remove from Cart")
         }
         $("#price").text(price);
