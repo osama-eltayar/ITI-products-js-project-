@@ -93,23 +93,23 @@ $(function()
         }
         p.pageNavigation(page, catFlag, supFlag, category, supplier)
     }
-    
-    function chooseSupplier(ev, page) 
+
+    function chooseSupplier(ev, page)
     {
         supplier = ev.target.text;
         console.log(supplier);
-        if (supplier != "All") 
+        if (supplier != "All")
         {
             supFlag = true;
         }
-        else 
+        else
         {
             supFlag = false;
         }
         p.pageNavigation(page, catFlag, supFlag, category, supplier)
     }
     // *******************************************************************
-    
+
 })
 
 class products
@@ -211,7 +211,7 @@ class products
 
     pageNavigation(page, catFlag, supFlag, category, supplier)
     {
-        let url = "?limit=" + this.limit + "&page=" + page ;  
+        let url = "?limit=" + this.limit + "&page=" + page ;
         if (catFlag)
             url += "&category=" + category;
         if(supFlag)
@@ -226,7 +226,7 @@ class products
                     $(".page1").empty();
                     console.log("end");
                 }
-                else 
+                else
                 {
                     if (page == this.total_pages && this.total_pages>1) {
                     $(".pageNext").hide();
@@ -248,7 +248,7 @@ class products
                         .addClass("btn page-link")
                         .text(page)
                         .appendTo(".page1")
-                        .css({background:'orange'}) 
+                        .css({background:'orange'})
                 }
             }
             else
@@ -258,7 +258,7 @@ class products
                 $(".pagePrev").hide();
             }
         });
-    
+
     }
 
 }
@@ -278,6 +278,7 @@ function showDetails()
         $(".product-price").text(result.data.Price);
 
         $(".status").text(result.data.Status);
+        $(".quantity").text(result.data.Quantity);
 
         $(".add-to-bag").text("Add to Cart")
         if(localStorage.hasOwnProperty(itemId))
