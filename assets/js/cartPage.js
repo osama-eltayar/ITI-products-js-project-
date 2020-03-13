@@ -4,7 +4,7 @@ cartProduct.forEach((e)=>{
     getProductData(e);
     
 })
-
+var allQuantity=[]
 const elem = document.querySelector('table');
 
 elem.addEventListener('getAllCart', (e) => {
@@ -50,14 +50,18 @@ function getTotalPrice(){
 
 $("table").on("focus","input" , function() {
     clsName = $(this)[0].className;
-    // console.log(clsName);
-    
     $("."+clsName+":eq(1)").change(function() {
         prodPrice = Number($("."+clsName+":eq(0)").text());
         prodQuantity = Number($("."+clsName+":eq(1)").val());
         if(!checkQuantityValid(prodQuantity)){
             $("."+clsName+":eq(1)").val(1);
             prodQuantity = 1;
+        }
+
+        if(prodQuantity > allQuantity[clsName])
+        {
+            prodQuantity = allQuantity[clsName];
+            $("."+clsName+":eq(1)").val(prodQuantity);
         }
         updateQuantity(clsName, prodQuantity);
         let total = prodPrice * prodQuantity;
@@ -76,8 +80,6 @@ function updateQuantity(cls, q){
 
 //do a validation check on the quantity entered by the customer
 function checkQuantityValid(quant){
-    console.log(quant);
-    
     if(isNaN(quant)||quant==0){
         return false;
     }
@@ -91,6 +93,7 @@ function getLocalStorageData(){
             if (i.match(/^HT-[0-9]+/)) {
                 value = JSON.parse(localStorage.getItem(i));
                 arr.push(value);
+                getProductAvailableItems(i)
             }
         }
     }
@@ -127,4 +130,23 @@ function getProductData(idIndex){
         const elem = document.querySelector('table');
         elem.dispatchEvent(event);
     });
+}
+
+async function getProductAvailableItems(id){
+    let promise = new Promise((resolve, reject)=>{
+        $.ajax({
+            url:"https://afternoon-falls-30227.herokuapp.com/api/v1/products/"+id, //path or url
+            success:function(response)
+            {
+                resolve(response.data.Quantity)
+                // return response.data.Quantity;
+            } ,
+            error:function()
+            {
+                reject("error xxx")
+            }
+        });
+    });
+    let msg = await promise
+    allQuantity[id] = msg;
 }

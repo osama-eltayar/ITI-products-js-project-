@@ -37,7 +37,7 @@
                       <a class="nav-link text-white btn-outline-light dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Category </a>
                       <div id ="catnav" class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" >All</a>
-                        
+
                       </div>
                     </li>
                     <li class="nav-item dropdown">
@@ -45,7 +45,7 @@
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Suppliers </a>
                       <div id="supnav" class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item">All</a>
-                    
+
                       </div>
                     </li>
 
@@ -86,7 +86,9 @@
     </header>
 
     <section>
-
+      <div class="text-center">
+        <img class="m-auto" src="assets/images/loading.gif" alt="errorrrr" id="loading">
+      </div>
         <div class="container mt-4">
           <div class="row items align-items-end offset-1">
 
@@ -98,9 +100,15 @@
             <li class="page-item disabled">
               <button class="btn btn-outline-secondary pagePrev" tabindex="-1" aria-disabled="true">&laquo;</button>
             </li>
-            <li class="page-item"><button class="btn page-link" id="page1">1</button></li>
-            <li class="page-item"><button class="btn page-link" id="page2">2</button></li>
-            <li class="page-item"><button class="btn page-link" id="page3">3</button></li>
+            <li class="page-item page1">
+              <!-- <button class="btn page-link" id="page1">1</button> -->
+            </li>
+            <li class="page-item">
+              <!-- <button class="btn page-link" id="page2">2</button> -->
+            </li>
+            <li class="page-item">
+              <!-- <button class="btn page-link" id="page3">3</button> -->
+            </li>
             <li class="page-item">
               <button class="btn btn-outline-secondary pageNext">&raquo;</button>
             </li>
@@ -111,8 +119,8 @@
         <div class="cart bg-light text-dark checkout">
           <a class="btn btn-sm" href="viewCart.html">
           <span class="num">0</span>
-          <span>$</span>
-          <span id="price">0</span>
+          <span class="text-danger">$</span>
+          <span class="text-danger" id="price">0</span>
           <img src="https://img.icons8.com/ios/15/000000/checkout.png">
           <span> Checkout</span>
         </a>
@@ -134,9 +142,12 @@
     <div class="detail">
       <div class="product-details">
         <h3 class="product-name"></h3>
-        <h2 class="product-price"></h2><span>&nbsp $</span>
+        <h2 class="product-price text-danger"></h2><span class="text-danger">&nbsp $</span>
         <p class="status"></p>
+        <div>
+        <span>Remaining: &nbsp</span>  <p class="quantity"></p>
         <p class="description"></p>
+        </div>
         <button class="button orange add-to-bag"> Add to cart </button>
       </div>
     </div>
