@@ -227,6 +227,7 @@ class products
         this.reListProducts()
         return this.getProductPage(url).then(msg=>{
             this.total_pages = msg.total_pages
+            this.current_page = msg.page
             console.log("total pages:",this.total_pages);
             let items = msg.data;
             items.forEach(item => {

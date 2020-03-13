@@ -2,9 +2,21 @@
     background-color: #2889a7!important;
 }
 
-.nav-item a:hover, button.search:hover{
+.nav-item a:hover, button.search:hover, #navbarDropdown:focus{
     color: #2889a7!important;
 }
+
+#navbarDropdown{
+    color: white!important;
+}
+#navbarDropdown:hover{
+    color: #2889a7!important;
+}
+
+.checkout{
+	z-index: 1;
+}
+
 
 .page-container{
     position: relative;

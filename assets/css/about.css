@@ -11,15 +11,15 @@ strong:not(a strong){
 
 #team{
     position: absolute;
+    color: white;
     bottom: -40px;
     left: 40%;
     z-index: 1;
-    color: white;
-    background-color: chocolate;
+    background-color: #2889a7;
     width: 200px;
     text-align: center;
     /* height: 120px; */
-    border: 2px solid #2889a7;
+    border: 2px solid lightgray;
     transform: rotate(-10deg);
     /* border-radius: 120px; */
 

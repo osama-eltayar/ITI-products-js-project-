@@ -50,6 +50,8 @@ function getTotalPrice(){
 
 $("table").on("focus","input" , function() {
     clsName = $(this)[0].className;
+    // console.log(clsName);
+    
     $("."+clsName+":eq(1)").change(function() {
         prodPrice = Number($("."+clsName+":eq(0)").text());
         prodQuantity = Number($("."+clsName+":eq(1)").val());

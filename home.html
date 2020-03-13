@@ -56,18 +56,28 @@
                 <!--</form> -->
                 </div>
             </nav>
-            <div height="200px">
-              <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+            <div class="container-fluid">
+              <div id="carouselExampleSlidesOnly" class="carousel slide carousel-fade" data-ride="carousel">
+                <ol class="carousel-indicators">
+                  <li data-target="#carouselExampleSlidesOnly" data-slide-to="0" class="active bg-dark"></li>
+                  <li data-target="#carouselExampleSlidesOnly" data-slide-to="1" class=" bg-dark"></li>
+                  <li data-target="#carouselExampleSlidesOnly" data-slide-to="2" class=" bg-dark"></li>
+                </ol>
                 <div class="carousel-inner">
                   <div class="carousel-item active">
                     <img class="img-fluid d-block w-100" src="assets/images/1.jpg" alt="First slide" width="460" height="200px">
+                    
                   </div>
                   <div class="carousel-item">
                     <img class="img-fluid d-block w-100" src="assets/images/2.jpg" alt="Second slide" width="460" height="200px">
+                    
                   </div>
                   <div class="carousel-item">
                     <img class="img-fluid d-block w-100" src="assets/images/3.jpg" alt="Third slide" width="460" height="200px">
+                    
                   </div>
+                  </div>
+                </div>
                 </div>
               </div>
             </div>
@@ -98,7 +108,7 @@
         </nav>
 
         <br>
-        <div class="cart bg-light text-dark">
+        <div class="cart bg-light text-dark checkout">
           <a class="btn btn-sm" href="viewCart.html">
           <span class="num">0</span>
           <span>$</span>
