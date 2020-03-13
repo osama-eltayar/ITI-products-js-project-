@@ -53,7 +53,12 @@ $(function()
              searchVal = $(this).val();
              catFlag = false;
              supFlag = false;
-            // p.useProductPage(url)
+             elements = document.querySelectorAll("#supnav a")
+             console.log(elements);
+             for(el in elements){
+                 if(!isNaN(el))
+                     {elements[el].style.background="white";}
+             }
         p.pageNavigation(page, catFlag, supFlag, category, supplier, searchFlag, searchVal)
     
         }
@@ -102,16 +107,15 @@ $(function()
             if(!isNaN(el))
                 {elements[el].style.background="white";}
         }
-        ev.target.style.background="red"
         if (category != "All")
         {
             catFlag = true;
+            ev.target.style.background="red"
         }
         else
         {
-            $("#searchBox").val("")
             catFlag = false;
-            searchFlag = false;
+            // searchFlag = false;
         }
         p.pageNavigation(page, catFlag, supFlag, category, supplier, searchFlag, searchVal)
     }
@@ -125,17 +129,16 @@ $(function()
             if(!isNaN(el))
                 {elements[el].style.background="white";}
         }
-        ev.target.style.background="red"
 
         if (supplier != "All")
         {
             supFlag = true;
+            ev.target.style.background="red"
         }
         else
         {
-            $("#searchBox").val("")
             supFlag = false;
-            searchFlag = false;
+            // searchFlag = false;
         }
         p.pageNavigation(page, catFlag, supFlag, category, supplier, searchFlag, searchVal)
     }
@@ -295,7 +298,7 @@ class products
                         .css({background:'orange'})
                 }
             }
-            else if(supFlag || catFlag && searchFlag)
+            else if(searchFlag && searchVal && (supFlag || catFlag))
             {
                 $(`<div>there's no <b>${searchVal}</b> in this filter</div>`).appendTo(".items")
                 $(".pageNext").hide();
