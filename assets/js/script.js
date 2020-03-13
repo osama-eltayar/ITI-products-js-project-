@@ -263,7 +263,7 @@ class products
         let imgTag = `<img class='card-img-top'  src="${image}" alt='not yet'>`;
         let cardBody =$("<div></div>")
           cardBody.addClass("card-body row")
-        let price =$("<div></div>")
+        let price =$("<div class=text-danger ></div>")
           price.addClass(`col-6 price ${id} text-left border-top pt-3`)
           price.html(`${priceVal}`)
         let checkout =$("<div></div>")
