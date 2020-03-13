@@ -280,3 +280,7 @@ a.view-more-detail {
 #searchBox{
   max-width: 300px;
 }
+
+.quantity{
+  display: inline;
+}
