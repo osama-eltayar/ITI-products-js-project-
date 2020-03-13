@@ -7,6 +7,11 @@ $(function()
     let url= "?limit="+limit+"&page="+page
     let dataEvent = new Event('getAllCheckedData');
     const elem = document.querySelector('.items');
+    let category=null ;
+    let catFlag=false;
+    let supplier=null;
+    let supFlag = false;
+    let searchFlag = false, searchVal=null;
     $(".page1").empty();
     $("<button></button>")
         .addClass("btn page-link")
@@ -23,35 +28,44 @@ $(function()
 
     $(".page-link").on('click', (e)=>{
         page = parseInt(e.target.innerText);
-        p.pageNavigation(page, catFlag, supFlag, category, supplier);
+        p.pageNavigation(page, catFlag, supFlag, category, supplier, searchFlag, searchVal)
     });
 
     $(".pagePrev").on('click',()=>{
         page -=1;
-        p.pageNavigation(page, catFlag, supFlag, category, supplier);
+        p.pageNavigation(page, catFlag, supFlag, category, supplier, searchFlag, searchVal)
     })
     $(".pageNext").on('click',()=>{
         page +=1;
-        p.pageNavigation(page, catFlag, supFlag, category, supplier);
+        p.pageNavigation(page, catFlag, supFlag, category, supplier, searchFlag, searchVal)
     })
 
+    p.pageNavigation(page, catFlag, supFlag, category, supplier, searchFlag, searchVal)
+    
+    
     /*************************************************************************/
-    $("#searchBox").keypress(function(event){
+
+        $("#searchBox").keypress(function(event){
         var keycode = (event.keyCode ? event.keyCode : event.which);
         if(keycode == '13'){
              url= "?q="+$(this).val();
-            // console.log(url);
-            p.useProductPage(url)
+             searchFlag = true;
+             searchVal = $(this).val();
+             catFlag = false;
+             supFlag = false;
+            // p.useProductPage(url)
+        p.pageNavigation(page, catFlag, supFlag, category, supplier, searchFlag, searchVal)
+    
         }
     });
 
     // *********************************************************************
     // list categories  & suppliers
 
-    let category ;
-    let catFlag=false;
-    let supplier;
-    let supFlag = false;
+    // let category=null ;
+    // let catFlag=false;
+    // let supplier=null;
+    // let supFlag = false;
     const cate = document.querySelector("#catnav");
     const supname = document.querySelector("#supnav");
     cate.addEventListener('click',(ev)=>{
@@ -95,9 +109,11 @@ $(function()
         }
         else
         {
+            $("#searchBox").val("")
             catFlag = false;
+            searchFlag = false;
         }
-        p.pageNavigation(page, catFlag, supFlag, category, supplier)
+        p.pageNavigation(page, catFlag, supFlag, category, supplier, searchFlag, searchVal)
     }
 
     function chooseSupplier(ev, page)
@@ -117,9 +133,11 @@ $(function()
         }
         else
         {
+            $("#searchBox").val("")
             supFlag = false;
+            searchFlag = false;
         }
-        p.pageNavigation(page, catFlag, supFlag, category, supplier)
+        p.pageNavigation(page, catFlag, supFlag, category, supplier, searchFlag, searchVal)
     }
     // *******************************************************************
 
@@ -221,13 +239,30 @@ class products
         return this.total_pages;
     }
 
-    pageNavigation(page, catFlag, supFlag, category, supplier)
+    pageNavigation(page, catFlag="", supFlag="", category="", supplier="", searchFlag="", searchVal="")
     {
         let url = "?limit=" + this.limit + "&page=" + page ;
+        // pageNavigation.count = 0;
+            console.log("search flag: ", searchFlag);
+        if (searchFlag) {
+            url+="&q="+searchVal;
+            console.log("search value: ", searchVal);
+            
+            // if (pageNavigation.count==0) {
+            //     catFlag = supFlag = false;
+            //     pageNavigation.count++
+            // }
+        }
         if (catFlag)
+        {
             url += "&category=" + category;
+            console.log("category: ",category);
+        }   
         if(supFlag)
+        {
             url += "&supplier=" + supplier;
+            console.log("supplier: ", supplier);
+        }   
         this.useProductPage(url).then((ev)=>{
             if(this.total_pages>0)
             {
@@ -259,6 +294,12 @@ class products
                         .appendTo(".page1")
                         .css({background:'orange'})
                 }
+            }
+            else if(supFlag || catFlag && searchFlag)
+            {
+                $(`<div>there's no <b>${searchVal}</b> in this filter</div>`).appendTo(".items")
+                $(".pageNext").hide();
+                $(".pagePrev").hide();
             }
             else
             {
