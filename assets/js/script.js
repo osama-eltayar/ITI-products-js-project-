@@ -101,6 +101,7 @@ $(function()
     function chooseCategory(ev,page)
     {
         category = ev.target.text;
+        
         elements = document.querySelectorAll("#catnav a")
         console.log(elements);
         for(el in elements){
@@ -109,11 +110,14 @@ $(function()
         }
         if (category != "All")
         {
+            $("#cattext").text(category)
             catFlag = true;
             ev.target.style.background="red"
         }
         else
         {
+            
+            $("#cattext").text("Category")
             catFlag = false;
             // searchFlag = false;
         }
@@ -132,11 +136,14 @@ $(function()
 
         if (supplier != "All")
         {
+            $("#suptext").text(supplier)
             supFlag = true;
             ev.target.style.background="red"
         }
         else
         {
+            $("#suptext").text("Supplier")
+            
             supFlag = false;
             // searchFlag = false;
         }
