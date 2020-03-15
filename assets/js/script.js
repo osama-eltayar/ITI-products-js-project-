@@ -345,6 +345,9 @@ function showDetails()
         $(".product-price").text(result.data.Price);
 
         $(".status").text(result.data.Status);
+        if($(".status").text()==="Available"){
+            $(".status").css("color","green");
+          }
         $(".quantity").text(result.data.Quantity);
 
         $(".add-to-bag").text("Add to Cart")
