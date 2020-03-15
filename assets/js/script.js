@@ -112,12 +112,19 @@ $(function()
         {
             $("#cattext").text(category)
             catFlag = true;
+            // tab = document.querySelector("#cattext");
+            // tab.style.background = "red";
+            $("#cattext").addClass("bg-danger");
             ev.target.style.background="red"
         }
         else
         {
-            
+            $("#cattext").removeClass("bg-danger");
             $("#cattext").text("Category")
+           
+            
+            
+          
             catFlag = false;
             // searchFlag = false;
         }
@@ -137,13 +144,14 @@ $(function()
         if (supplier != "All")
         {
             $("#suptext").text(supplier)
+            $("#suptext").addClass("bg-danger");
             supFlag = true;
             ev.target.style.background="red"
         }
         else
         {
             $("#suptext").text("Supplier")
-            
+            $("#suptext").removeClass("bg-danger");
             supFlag = false;
             // searchFlag = false;
         }
@@ -218,7 +226,7 @@ class products
           cardBody.addClass("card-body row")
         let price =$("<div class=text-danger ></div>")
           price.addClass(`col-6 price ${id} text-left border-top pt-3`)
-          price.html(`${priceVal}`)
+          price.html(`$ ${priceVal}`)
         let checkout =$("<div></div>")
             checkout.addClass("col-6 checkout text-right border-top pt-3")
             checkout.html(`<button class='btn btn-sm btn-light rounded-circle' id="${id}">
