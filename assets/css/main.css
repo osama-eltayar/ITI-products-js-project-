@@ -296,3 +296,8 @@ a.view-more-detail {
 .quantity{
   display: inline;
 }
+
+#myDetailedImage{
+	max-width: 65%;
+    margin-top: 50px;
+}
