@@ -2,9 +2,13 @@
     background-color: #2889a7!important;
 }
 
-.nav-item a:hover, button.search:hover, #navbarDropdown:focus{
+.nav-item a:hover, button.search:hover ,.navbarDropdown1:focus , .chooser{
     color: #2889a7!important;
 }
+
+/* .navbarDropdown1:focus , .navbarDropdown1:active{
+	color: black !important;
+} */
 
 #navbarDropdown{
     color: white!important;

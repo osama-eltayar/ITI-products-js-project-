@@ -114,12 +114,12 @@ $(function()
             catFlag = true;
             // tab = document.querySelector("#cattext");
             // tab.style.background = "red";
-            $("#cattext").addClass("bg-danger");
+            $("#cattext").addClass("bg-light chooser");
             ev.target.style.background="red"
         }
         else
         {
-            $("#cattext").removeClass("bg-danger");
+            $("#cattext").removeClass("bg-light chooser");
             $("#cattext").text("Category")
            
             
@@ -144,14 +144,15 @@ $(function()
         if (supplier != "All")
         {
             $("#suptext").text(supplier)
-            $("#suptext").addClass("bg-danger");
+            $("#suptext").addClass("bg-light chooser");
+
             supFlag = true;
             ev.target.style.background="red"
         }
         else
         {
             $("#suptext").text("Supplier")
-            $("#suptext").removeClass("bg-danger");
+            $("#suptext").removeClass("bg-light chooser");
             supFlag = false;
             // searchFlag = false;
         }
@@ -226,7 +227,7 @@ class products
           cardBody.addClass("card-body row")
         let price =$("<div class=text-danger ></div>")
           price.addClass(`col-6 price ${id} text-left border-top pt-3`)
-          price.html(`$ ${priceVal}`)
+          price.html(`${priceVal}`)
         let checkout =$("<div></div>")
             checkout.addClass("col-6 checkout text-right border-top pt-3")
             checkout.html(`<button class='btn btn-sm btn-light rounded-circle' id="${id}">
@@ -347,8 +348,9 @@ function showDetails()
         $(".status").text(result.data.Status);
         if($(".status").text()==="Available"){
             $(".status").css("color","green");
+            $(".status").text(result.data.Status + " " + result.data.Quantity);
           }
-        $(".quantity").text(result.data.Quantity);
+        // $(".quantity").text(result.data.Quantity);
 
         $(".add-to-bag").text("Add to Cart")
         if(localStorage.hasOwnProperty(itemId))
