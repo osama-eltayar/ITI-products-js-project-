@@ -216,13 +216,13 @@ class products
     {
         let items = $(".items")
         let item = $("<div></div>")
-          item.addClass("col col-sm-6 col-md-4 item p-2 p-md-2  text-center")
+          item.addClass("col col-sm-6 col-md-4 item pt-3 text-center")
         let cardDiv = $("<div></div>")
-          cardDiv.addClass("card")
+          cardDiv.addClass("card mx-auto")
         let itemTitle = $("<h6></h6>")
           itemTitle.addClass("card-title")
           itemTitle.text(`${name}`)
-        let imgTag = `<img class='card-img-top'  src="${image}" alt='not yet'  width="222px" height="222px">`;
+        let imgTag = `<img class='card-img-top'  src="${image}" alt='not yet'  width="222px" height="200px">`;
         let cardBody =$("<div></div>")
           cardBody.addClass("card-body row")
           let itemPrice = $("<div class=text-danger ></div>")
