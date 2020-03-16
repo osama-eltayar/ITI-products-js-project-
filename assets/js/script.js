@@ -53,7 +53,12 @@ $(function()
              searchVal = $(this).val();
              catFlag = false;
              supFlag = false;
-            // p.useProductPage(url)
+             elements = document.querySelectorAll("#supnav a")
+             console.log(elements);
+             for(el in elements){
+                 if(!isNaN(el))
+                     {elements[el].style.background="white";}
+             }
         p.pageNavigation(page, catFlag, supFlag, category, supplier, searchFlag, searchVal)
     
         }
@@ -96,22 +101,32 @@ $(function()
     function chooseCategory(ev,page)
     {
         category = ev.target.text;
+        
         elements = document.querySelectorAll("#catnav a")
         console.log(elements);
         for(el in elements){
             if(!isNaN(el))
                 {elements[el].style.background="white";}
         }
-        ev.target.style.background="red"
         if (category != "All")
         {
+            $("#cattext").text(category)
             catFlag = true;
+            // tab = document.querySelector("#cattext");
+            // tab.style.background = "red";
+            $("#cattext").addClass("bg-light chooser");
+            ev.target.style.background="red"
         }
         else
         {
-            $("#searchBox").val("")
+            $("#cattext").removeClass("bg-light chooser");
+            $("#cattext").text("Category")
+           
+            
+            
+          
             catFlag = false;
-            searchFlag = false;
+            // searchFlag = false;
         }
         p.pageNavigation(page, catFlag, supFlag, category, supplier, searchFlag, searchVal)
     }
@@ -125,17 +140,21 @@ $(function()
             if(!isNaN(el))
                 {elements[el].style.background="white";}
         }
-        ev.target.style.background="red"
 
         if (supplier != "All")
         {
+            $("#suptext").text(supplier)
+            $("#suptext").addClass("bg-light chooser");
+
             supFlag = true;
+            ev.target.style.background="red"
         }
         else
         {
-            $("#searchBox").val("")
+            $("#suptext").text("Supplier")
+            $("#suptext").removeClass("bg-light chooser");
             supFlag = false;
-            searchFlag = false;
+            // searchFlag = false;
         }
         p.pageNavigation(page, catFlag, supFlag, category, supplier, searchFlag, searchVal)
     }
@@ -301,7 +320,7 @@ class products
                         .css({background:'orange'})
                 }
             }
-            else if(supFlag || catFlag && searchFlag)
+            else if(searchFlag && searchVal && (supFlag || catFlag))
             {
                 $(`<div>there's no <b>${searchVal}</b> in this filter</div>`).appendTo(".items")
                 $(".pageNext").hide();
@@ -333,7 +352,11 @@ function showDetails()
         $(".product-price").text(result.data.Price);
 
         $(".status").text(result.data.Status);
-        $(".quantity").text(result.data.Quantity);
+        if($(".status").text()==="Available"){
+            $(".status").css("color","green");
+            $(".status").text(result.data.Status + " " + result.data.Quantity);
+          }
+        // $(".quantity").text(result.data.Quantity);
 
         $(".add-to-bag").text("Add to Cart")
         if(localStorage.hasOwnProperty(itemId))
