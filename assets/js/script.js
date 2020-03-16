@@ -222,7 +222,7 @@ class products
         let itemTitle = $("<h6></h6>")
           itemTitle.addClass("card-title")
           itemTitle.text(`${name}`)
-        let imgTag = `<img class='card-img-top'  src="${image}" alt='not yet'>`;
+        let imgTag = `<img class='card-img-top'  src="${image}" alt='not yet'  width="222px" height="222px">`;
         let cardBody =$("<div></div>")
           cardBody.addClass("card-body row")
           let itemPrice = $("<div class=text-danger ></div>")
